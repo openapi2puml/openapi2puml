@@ -1,16 +1,17 @@
-[![Build Status](https://travis-ci.org/kicksolutions/swagger2puml.svg?branch=master)](https://travis-ci.org/kicksolutions/swagger2puml)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/io.swagger/swagger-codegen-project/badge.svg?style=plastic)](https://oss.sonatype.org/#nexus-search;gav~io.github.kicksolutions~swagger-plantuml-core~~~)
-[![codecov](https://codecov.io/gh/kicksolutions/swagger2puml/branch/master/graph/badge.svg)](https://codecov.io/gh/kicksolutions/swagger2puml)
+# OpenAPI2Puml
 
-# Swagger2Puml
+OpenApi to Plant UML conversion tool generates UML Class Diagrams from an Open API definition.
 
-Swagger to Puml convertion tool helps to generate Class Diagrams from Swagger Definition.
+This is a fork of the original project Swagger2puml (https://github.com/kicksolutions/swagger2puml) which seems to have been dormant for some time.
 
-This Project is based on Maven and plan to support Gradle also in future.
+The original developers of Swagger2puml are:
+- Santosh Manapragada https://github.com/msantosh1188
+- Manisha Bardiya https://github.com/manishabardiya
+
+This project is based on Maven.
 Following are modules we currently have 
 
 - swagger2puml-core
-- swagger2puml-maven
 
 Following are the tools which this project internally uses:
 
@@ -49,11 +50,6 @@ java -cp swagger2puml.jar com.kicksolutions.swagger.Swagger2PlantUML [options]
 -includeCardinality {true/flase Defult true (Optional)}
 -includeCardinality {true/flase Defult true (Optional)}
 ```
-
-## swagger2puml-maven
-
-This Maven plugin is Mojo, which internally calls swagger2puml-core to generate swagger.puml and swagger.svg for given Swagger Definition.
-Swagger Definition can be either yaml or json extensions.
 
 License
 ----
