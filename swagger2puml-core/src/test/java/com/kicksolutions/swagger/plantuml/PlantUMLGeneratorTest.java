@@ -12,11 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PlantUMLGeneratorTest {
 
   private PlantUMLGenerator generator = new PlantUMLGenerator();
-
   private static final String DEFAULT_PLANT_UML_FILENAME = "swagger.puml";
 
-  // TODO - setup - remove the generated files if they exist
-
+  // TODO - setup - remove the generated files if they exist (*.puml, *.svg)
 
   @Test
   @DisplayName("Basic Petstore test")
@@ -25,14 +23,12 @@ class PlantUMLGeneratorTest {
     String outputPath = "src/test/resources/petstore";
     boolean generateDefinitionModelOnly = false;
     boolean includeCardinality = true;
-    boolean generateSvg = false; // TODO - this is to generate the svg image file but it doesn't work correctly as a
-    // test
+    boolean generateSvg = true;
 
     generator.transformSwagger2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
 
     assertTrue(new File(outputPath + "/" + DEFAULT_PLANT_UML_FILENAME).exists(), "Expect PlantUML file to be generated");
   }
-
 
   @Test
   @DisplayName("Petstore test with inheritance")
@@ -41,8 +37,7 @@ class PlantUMLGeneratorTest {
     String outputPath = "src/test/resources/petstore_with_inheritance";
     boolean generateDefinitionModelOnly = false;
     boolean includeCardinality = true;
-    boolean generateSvg = false; // TODO - this is to generate the svg image file but it doesn't work correctly as a
-    // test
+    boolean generateSvg = true;
 
     generator.transformSwagger2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
 
@@ -56,8 +51,7 @@ class PlantUMLGeneratorTest {
     String outputPath = "src/test/resources/petstore_with_multipleErrorResponseMessages/";
     boolean generateDefinitionModelOnly = false;
     boolean includeCardinality = true;
-    boolean generateSvg = false; // TODO - this is to generate the svg image file but it doesn't work correctly as a
-    // test
+    boolean generateSvg = true;
 
     generator.transformSwagger2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
 
