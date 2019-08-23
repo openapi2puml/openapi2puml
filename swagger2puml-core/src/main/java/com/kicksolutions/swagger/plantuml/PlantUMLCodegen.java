@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.kicksolutions.swagger.plantuml;
 
@@ -50,7 +50,7 @@ import io.swagger.models.properties.StringProperty;
 
 /**
  * @author MSANTOSH
- * 
+ *
  */
 public class PlantUMLCodegen {
 
@@ -66,10 +66,10 @@ public class PlantUMLCodegen {
 	private static final String CARDINALITY_NONE_TO_ONE = "0..1";
 
 	/**
-	 * 
+	 *
 	 */
 	public PlantUMLCodegen(Swagger swagger, File targetLocation, boolean generateDefinitionModelOnly,
-			boolean includeCardinality) {
+												 boolean includeCardinality) {
 		this.swagger = swagger;
 		this.targetLocation = targetLocation;
 		this.generateDefinitionModelOnly = generateDefinitionModelOnly;
@@ -77,7 +77,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public String generatePuml() throws IOException, IllegalAccessException {
 		LOGGER.entering(LOGGER.getName(), "generatePuml");
@@ -87,8 +87,12 @@ public class PlantUMLCodegen {
 		MustacheFactory mf = new DefaultMustacheFactory();
 		Mustache mustache = mf.compile("puml.mustache");
 		Writer writer = null;
-		String pumlPath = new StringBuilder().append(targetLocation.getAbsolutePath()).append(File.separator)
-				.append("swagger.puml").toString();
+		String pumlPath = new StringBuilder()
+				.append(targetLocation.getAbsolutePath())
+				.append(File.separator)
+				.append("swagger.puml")
+				.toString();
+
 		try {
 			writer = new FileWriter(pumlPath);
 			mustache.execute(writer, additionalProperties);
@@ -108,7 +112,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param swagger
 	 */
 	private Map<String, Object> preprocessSwagger(Swagger swagger) {
@@ -123,21 +127,21 @@ public class PlantUMLCodegen {
 		additionalProperties.put("classDiagrams", classDiagrams);
 
 		List<InterfaceDiagram> interfaceDiagrams = new ArrayList<InterfaceDiagram>();
-		
+
 		if (!generateDefinitionModelOnly) {
 			interfaceDiagrams.addAll(processSwaggerPaths(swagger));
 			additionalProperties.put("interfaceDiagrams", interfaceDiagrams);
 		}
-		
+
 		additionalProperties.put("entityRelations", getRelations(classDiagrams, interfaceDiagrams));
 
 		LOGGER.exiting(LOGGER.getName(), "preprocessSwagger");
 
 		return additionalProperties;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param classDiagrams
 	 * @param interfaceDiagrams
 	 * @return
@@ -146,52 +150,52 @@ public class PlantUMLCodegen {
 		List<ClassRelation> relations = new ArrayList<ClassRelation>();
 		relations.addAll(getAllModelRelations(classDiagrams));
 		relations.addAll(getAllInterfacesRelations(interfaceDiagrams));
-		
+
 		return filterUnique(relations,false);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param classDiagrams
 	 * @return
 	 */
 	private List<ClassRelation> getAllModelRelations(List<ClassDiagram> classDiagrams){
-		List<ClassRelation> modelRelations = new ArrayList<ClassRelation>(); 
-		
+		List<ClassRelation> modelRelations = new ArrayList<ClassRelation>();
+
 		for(ClassDiagram classDiagram: classDiagrams){
-			 List<ClassRelation> classRelations = classDiagram.getChildClass();
-			 
-			 for(ClassRelation classRelation: classRelations){
-				 classRelation.setSourceClass(classDiagram.getClassName());
-				 modelRelations.add(classRelation);
-			 }
-		}		
-		
+			List<ClassRelation> classRelations = classDiagram.getChildClass();
+
+			for(ClassRelation classRelation: classRelations){
+				classRelation.setSourceClass(classDiagram.getClassName());
+				modelRelations.add(classRelation);
+			}
+		}
+
 		return modelRelations;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param classDiagrams
 	 * @return
 	 */
 	private List<ClassRelation> getAllInterfacesRelations(List<InterfaceDiagram> interfaceDiagrams){
-		List<ClassRelation> modelRelations = new ArrayList<ClassRelation>(); 
-		
+		List<ClassRelation> modelRelations = new ArrayList<ClassRelation>();
+
 		for(InterfaceDiagram classDiagram: interfaceDiagrams){
-			 List<ClassRelation> classRelations = classDiagram.getChildClass();
-			 
-			 for(ClassRelation classRelation: classRelations){
+			List<ClassRelation> classRelations = classDiagram.getChildClass();
+
+			for(ClassRelation classRelation: classRelations){
 				classRelation.setSourceClass(classDiagram.getInterfaceName());
 				modelRelations.add(classRelation);
-			 }
-		}		
-		
+			}
+		}
+
 		return modelRelations;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param swagger
 	 * @return
 	 */
@@ -218,7 +222,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -227,59 +231,58 @@ public class PlantUMLCodegen {
 
 		InterfaceDiagram interfaceDiagram = new InterfaceDiagram();
 		String interfaceName = getInterfaceName(operation.getTags(), operation, uri);
-		String errorClassName = getErrorClassName(operation);
+		List<String> errorClassNames = getErrorClassNames(operation);
 		interfaceDiagram.setInterfaceName(interfaceName);
-		interfaceDiagram.setErrorClass(errorClassName);
+		interfaceDiagram.setErrorClasses(errorClassNames);
 		interfaceDiagram.setMethods(getInterfaceMethods(operation));
-		interfaceDiagram.setChildClass(getInterfaceRelations(operation,errorClassName));
+		interfaceDiagram.setChildClass(getInterfaceRelations(operation,errorClassNames));
 
 		LOGGER.exiting(LOGGER.getName(), "getInterfaceDiagram");
 		return interfaceDiagram;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
-	private List<ClassRelation> getInterfaceRelations(Operation operation,String errorClassName) {
+	private List<ClassRelation> getInterfaceRelations(Operation operation, List<String> errorClassNames) {
 		List<ClassRelation> relations = new ArrayList<ClassRelation>();
 		relations.addAll(getInterfaceRelatedResponses(operation));
 		relations.addAll(getInterfaceRelatedInputs(operation));
-		if(StringUtils.isNotEmpty(errorClassName))
-		{
+		for(String errorClassName : errorClassNames){
 			relations.add(getErrorClass(errorClassName));
 		}
-		
+
 		return filterUnique(relations,true);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param relations
 	 * @return
 	 */
 	private List<ClassRelation> filterUnique(List<ClassRelation> relations,boolean compareTargetOnly){
 		List<ClassRelation> uniqueList = new ArrayList<ClassRelation>();
-		
-		for(ClassRelation relation: relations){			
+
+		for(ClassRelation relation: relations){
 			if(!isTargetClassInMap(relation, uniqueList,compareTargetOnly)){
 				uniqueList.add(relation);
 			}
 		}
-		
+
 		return uniqueList;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param className
 	 * @param relatedResponses
 	 * @return
 	 */
 	private boolean isTargetClassInMap(ClassRelation sourceRelation, List<ClassRelation> relatedResponses,boolean considerTargetOnly) {
 		for (ClassRelation relation : relatedResponses) {
-			
+
 			if(considerTargetOnly){
 				if(StringUtils.isNotEmpty(relation.getTargetClass()) && StringUtils.isNotEmpty(sourceRelation.getTargetClass())
 						&& relation.getTargetClass().equalsIgnoreCase(sourceRelation.getTargetClass())){
@@ -287,13 +290,13 @@ public class PlantUMLCodegen {
 				}
 			}
 			else{
-				if(StringUtils.isNotEmpty(relation.getSourceClass()) 
-						&& StringUtils.isNotEmpty(sourceRelation.getSourceClass()) 
+				if(StringUtils.isNotEmpty(relation.getSourceClass())
+						&& StringUtils.isNotEmpty(sourceRelation.getSourceClass())
 						&& StringUtils.isNotEmpty(relation.getTargetClass())
 						&& StringUtils.isNotEmpty(sourceRelation.getTargetClass())
-						&& relation.getSourceClass().equalsIgnoreCase(sourceRelation.getSourceClass()) 
+						&& relation.getSourceClass().equalsIgnoreCase(sourceRelation.getSourceClass())
 						&& relation.getTargetClass().equalsIgnoreCase(sourceRelation.getTargetClass())){
-					
+
 					return true;
 				}
 			}
@@ -301,9 +304,9 @@ public class PlantUMLCodegen {
 
 		return false;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param errorClassName
 	 * @return
 	 */
@@ -312,12 +315,12 @@ public class PlantUMLCodegen {
 		classRelation.setTargetClass(errorClassName);
 		classRelation.setComposition(false);
 		classRelation.setExtension(true);
-				
+
 		return classRelation;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -356,50 +359,50 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
 	private List<ClassRelation> getInterfaceRelatedResponses(Operation operation) {
 		List<ClassRelation> relatedResponses = new ArrayList<ClassRelation>();
 		Map<String,Response> responses = operation.getResponses();
-		
-		for (Map.Entry<String, Response> responsesEntry : responses.entrySet()){			
+
+		for (Map.Entry<String, Response> responsesEntry : responses.entrySet()){
 			String responseCode = responsesEntry.getKey();
-			
+
 			if (!(responseCode.equalsIgnoreCase("default") || Integer.parseInt(responseCode) >= 300)) {
 				Property responseProperty = responsesEntry.getValue().getSchema();
-				
+
 				if(responseProperty instanceof RefProperty){
 					ClassRelation relation = new ClassRelation();
 					relation.setTargetClass(((RefProperty)responseProperty).getSimpleRef());
 					relation.setComposition(false);
 					relation.setExtension(true);
-					
+
 					relatedResponses.add(relation);
 				}
 				else if (responseProperty instanceof ArrayProperty){
 					ArrayProperty arrayObject =  (ArrayProperty)responseProperty;
 					Property arrayResponseProperty = arrayObject.getItems();
-					
+
 					if(arrayResponseProperty instanceof RefProperty){
 						ClassRelation relation = new ClassRelation();
 						relation.setTargetClass(((RefProperty)arrayResponseProperty).getSimpleRef());
 						relation.setComposition(false);
 						relation.setExtension(true);
-						
+
 						relatedResponses.add(relation);
 					}
 				}
 			}
-			
+
 		}
-		
+
 		return relatedResponses;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -416,7 +419,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -476,7 +479,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -509,7 +512,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -537,8 +540,30 @@ public class PlantUMLCodegen {
 		return errorClass.toString();
 	}
 
+	private List<String> getErrorClassNames(Operation operation) {
+		List<String> errorClasses = new ArrayList<>();
+		Map<String, Response> responses = operation.getResponses();
+
+		for (Map.Entry<String, Response> responsesEntry : responses.entrySet()) {
+			String responseCode = responsesEntry.getKey();
+
+			if (responseCode.equalsIgnoreCase("default") || Integer.parseInt(responseCode) >= 300) {
+				Property responseProperty = responsesEntry.getValue().getSchema();
+
+				if (responseProperty instanceof RefProperty) {
+					String errorClassName = ((RefProperty) responseProperty).getSimpleRef();
+					if (!errorClasses.contains(errorClassName)) {
+						errorClasses.add(errorClassName);
+					}
+				}
+			}
+		}
+
+		return errorClasses;
+	}
+
 	/**
-	 * 
+	 *
 	 * @param tags
 	 * @param operation
 	 * @param uri
@@ -559,7 +584,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param swagger
 	 * @return
 	 */
@@ -588,7 +613,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -611,7 +636,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -643,7 +668,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param classMembers
 	 * @param superClass
 	 * @return
@@ -679,7 +704,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelObject
 	 * @param modelsMap
 	 * @return
@@ -702,7 +727,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param arrayModel
 	 * @param modelsMap
 	 * @return
@@ -723,24 +748,24 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param composedModel
 	 * @param modelsMap
 	 * @return
 	 */
 	private List<ClassMembers> getClassMembers(ComposedModel composedModel, Map<String, Model> modelsMap) {
-      return getClassMembers(composedModel, modelsMap, new HashSet<Model>());
+		return getClassMembers(composedModel, modelsMap, new HashSet<Model>());
 	}
 
-  /**
-   * New Overloaded getClassMembers Implementation to handle deeply nested class hierarchies
-   * @param composedModel
-   * @param modelsMap
-   * @param visited
-   * @return
-   */
+	/**
+	 * New Overloaded getClassMembers Implementation to handle deeply nested class hierarchies
+	 * @param composedModel
+	 * @param modelsMap
+	 * @param visited
+	 * @return
+	 */
 	private List<ClassMembers> getClassMembers(ComposedModel composedModel, Map<String, Model> modelsMap, Set<Model> visited) {
-	  LOGGER.entering(LOGGER.getName(), "getClassMembers-ComposedModel-DeepNest");
+		LOGGER.entering(LOGGER.getName(), "getClassMembers-ComposedModel-DeepNest");
 
 		List<ClassMembers> classMembers = new ArrayList<ClassMembers>();
 		Map<String, Property> childProperties = new HashMap<String, Property>();
@@ -750,51 +775,50 @@ public class PlantUMLCodegen {
 		}
 
 		List<ClassMembers> ancestorMembers = new ArrayList<ClassMembers>();
+
 		List<Model> allOf = composedModel.getAllOf();
 		for (Model currentModel : allOf) {
 
 			if (currentModel instanceof RefModel) {
 				RefModel refModel = (RefModel) currentModel;
 				// This line throws an NPE when encountering deeply nested class hierarchies because it assumes any child
-        // classes are RefModel and not ComposedModel
-				// childProperties.putAll(modelsMap.get(refModel.getSimpleRef()).getProperties());
+				// classes are RefModel and not ComposedModel
+//				childProperties.putAll(modelsMap.get(refModel.getSimpleRef()).getProperties());
 
-        Model parentRefModel = modelsMap.get(refModel.getSimpleRef());
+				Model parentRefModel = modelsMap.get(refModel.getSimpleRef());
 
-        if (parentRefModel.getProperties() != null) {
-          childProperties.putAll(parentRefModel.getProperties());
-        }
+				if (parentRefModel.getProperties() != null) {
+					childProperties.putAll(parentRefModel.getProperties());
+				}
 
 				classMembers = convertModelPropertiesToClassMembers(childProperties,
 						modelsMap.get(refModel.getSimpleRef()), modelsMap);
 
-        // If the parent model also has AllOf references -- meaning it's a child of some other superclass
-        // then we need to recurse to get the grandparent's properties and add them to our current classes
-        // derived property list
-        if (parentRefModel instanceof ComposedModel) {
-          ComposedModel parentRefComposedModel = (ComposedModel) parentRefModel;
-          // Use visited to mark which classes we've processed -- this is just to avoid
-          // an infinite loop in case there's a circular reference in the class hierarchy.
-          if (!visited.contains(parentRefComposedModel)) {
-            ancestorMembers = getClassMembers(parentRefComposedModel, modelsMap, visited);
-            classMembers.addAll(ancestorMembers);
-          }
-         }
-
-
+				// If the parent model also has AllOf references -- meaning it's a child of some other superclass
+				// then we need to recurse to get the grandparent's properties and add them to our current classes
+				// derived property list
+				if (parentRefModel instanceof ComposedModel) {
+					ComposedModel parentRefComposedModel = (ComposedModel) parentRefModel;
+					// Use visited to mark which classes we've processed -- this is just to avoid
+					// an infinite loop in case there's a circular reference in the class hierarchy.
+					if (!visited.contains(parentRefComposedModel)) {
+						ancestorMembers = getClassMembers(parentRefComposedModel, modelsMap, visited);
+						classMembers.addAll(ancestorMembers);
+					}
+				}
 			}
 		}
 
 		visited.add(composedModel);
 		LOGGER.exiting(LOGGER.getName(), "getClassMembers-ComposedModel-DeepNest");
 		return classMembers;
-  }
+	}
 
-  
-  
+
+
 
 	/**
-	 * 
+	 *
 	 * @param model
 	 * @return
 	 */
@@ -828,7 +852,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param refProperty
 	 * @return
 	 */
@@ -847,7 +871,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param enumValues
 	 * @return
 	 */
@@ -869,12 +893,12 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelMembers
 	 * @return
 	 */
 	private List<ClassMembers> convertModelPropertiesToClassMembers(Map<String, Property> modelMembers,
-			Model modelObject, Map<String, Model> models) {
+																																	Model modelObject, Map<String, Model> models) {
 		LOGGER.entering(LOGGER.getName(), "convertModelPropertiesToClassMembers");
 
 		List<ClassMembers> classMembers = new ArrayList<ClassMembers>();
@@ -903,7 +927,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelObject
 	 * @param models
 	 * @param variablName
@@ -911,7 +935,7 @@ public class PlantUMLCodegen {
 	 * @param propObject
 	 */
 	private ClassMembers getClassMember(ArrayProperty property, Model modelObject, Map<String, Model> models,
-			String variablName) {
+																			String variablName) {
 		LOGGER.entering(LOGGER.getName(), "getClassMember-ArrayProperty");
 
 		ClassMembers classMemberObject = new ClassMembers();
@@ -928,7 +952,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param stringProperty
 	 * @param models
 	 * @param modelObject
@@ -947,7 +971,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param refProperty
 	 * @param models
 	 * @param modelObject
@@ -955,7 +979,7 @@ public class PlantUMLCodegen {
 	 * @return
 	 */
 	private ClassMembers getClassMember(RefProperty refProperty, Map<String, Model> models, Model modelObject,
-			String variablName) {
+																			String variablName) {
 		LOGGER.entering(LOGGER.getName(), "getClassMember-RefProperty");
 
 		ClassMembers classMemberObject = new ClassMembers();
@@ -979,7 +1003,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelObject
 	 * @param propertyName
 	 * @return
@@ -1004,7 +1028,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param className
 	 * @param isArray
 	 * @return
@@ -1018,7 +1042,7 @@ public class PlantUMLCodegen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param input
 	 * @return
 	 */

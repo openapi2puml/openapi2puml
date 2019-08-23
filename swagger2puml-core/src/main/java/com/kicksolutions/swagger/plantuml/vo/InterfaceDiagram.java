@@ -3,28 +3,28 @@ package com.kicksolutions.swagger.plantuml.vo;
 import java.util.List;
 
 /**
- * 
+ *
  * @author MSANTOSH
  *
  */
 public class InterfaceDiagram {
-	
+
 	private String interfaceName;
 	private List<MethodDefinitions> methods;
 	private List<ClassRelation> childClass;
-	private String errorClass;
+	private List<String> errorClasses;
 
 	public InterfaceDiagram() {
 		super();
 	}
 
 	public InterfaceDiagram(String interfaceName, List<MethodDefinitions> methods,
-			List<ClassRelation> childClass,String errorClass) {
+													List<ClassRelation> childClass,List<String> errorClasses) {
 		super();
 		this.interfaceName = interfaceName;
 		this.methods = methods;
 		this.childClass = childClass;
-		this.errorClass = errorClass;
+		this.errorClasses = errorClasses;
 	}
 
 	public String getInterfaceName() {
@@ -51,17 +51,17 @@ public class InterfaceDiagram {
 		this.childClass = childClass;
 	}
 
-	public String getErrorClass() {
-		return errorClass;
+	public List<String> getErrorClasses() {
+		return errorClasses;
 	}
 
-	public void setErrorClass(String errorClass) {
-		this.errorClass = errorClass;
+	public void setErrorClasses(List<String> errorClasses) {
+		this.errorClasses = errorClasses;
 	}
 
 	@Override
 	public String toString() {
 		return "InterfaceDiagram [interfaceName=" + interfaceName + ", methods=" + methods + ", childClass="
-				+ childClass + ", errorClass=" + errorClass + "]";
+				+ childClass + ", errorClasses=" + errorClasses + "]";
 	}
 }
