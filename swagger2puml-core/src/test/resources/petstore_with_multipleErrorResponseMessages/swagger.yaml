@@ -775,10 +775,10 @@ definitions:
       - title
     properties:
       title:
-        description: A short summary of the warning
+        description: A short summary of the error
         type: string
       detail:
-        description: Explanation of the warning
+        description: Explanation of the error
         type: string
 externalDocs:
   description: Find out more about Swagger

@@ -75,6 +75,7 @@
 		<version.mustache>0.8.18</version.mustache>
 		<version.net.sourceforge.plantuml>1.2019.7</version.net.sourceforge.plantuml>
 		<junit.jupiter.version>5.4.2</junit.jupiter.version>
+		<mockito.version>3.0.0</mockito.version>
 	</properties>
 
 	<dependencyManagement>
@@ -99,6 +100,11 @@
 				<groupId>net.sourceforge.plantuml</groupId>
 				<artifactId>plantuml</artifactId>
 				<version>${version.net.sourceforge.plantuml}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

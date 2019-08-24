@@ -3,12 +3,12 @@ package com.kicksolutions.swagger.plantuml.vo;
 import java.util.List;
 
 /**
- *
+ * 
  * @author MSANTOSH
  *
  */
 public class InterfaceDiagram {
-
+	
 	private String interfaceName;
 	private List<MethodDefinitions> methods;
 	private List<ClassRelation> childClass;
@@ -19,7 +19,7 @@ public class InterfaceDiagram {
 	}
 
 	public InterfaceDiagram(String interfaceName, List<MethodDefinitions> methods,
-													List<ClassRelation> childClass,List<String> errorClasses) {
+			List<ClassRelation> childClass,List<String> errorClasses) {
 		super();
 		this.interfaceName = interfaceName;
 		this.methods = methods;
