@@ -2,22 +2,22 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.github.kicksolutions</groupId>
-	<artifactId>swagger-plantuml-reactor</artifactId>
+	<groupId>io.github.openapi2puml</groupId>
+	<artifactId>openapi-plantuml</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<url>https://github.com/kicksolutions/swagger2puml</url>
-	<name>swagger-plantuml-reactor</name>
-	<description>Reactor POM to generate Plant UML from Swagger</description>
+	<url>https://github.com/openapi2puml/openapi2puml</url>
+	<name>openapi-plantuml</name>
+	<description>Reactor POM to generate Plant UML from OpenApi definition</description>
 
 	<organization>
-		<name>Kick Solutions</name>
+		<name>OpenApi 2 Plant UML</name>
 	</organization>
 
 	<scm>
-		<connection>scm:git:git@github.com:kicksolutions/swagger2puml.git</connection>
-		<url>https://github.com/kicksolutions/swagger2puml</url>
+		<connection>scm:git:git@github.com:openapi2puml/openapi2puml.git</connection>
+		<url>https://github.com/openapi2puml/openapi2puml</url>
 	</scm>
 
 	<developers>
@@ -40,7 +40,7 @@
 
 	<issueManagement>
 		<system>github</system>
-		<url>https://github.com/kicksolutions/swagger2puml/issues</url>
+		<url>https://github.com/openapi2puml/openapi2puml/issues</url>
 	</issueManagement>
 
 	<licenses>
@@ -54,16 +54,8 @@
 	<distributionManagement>
 		<site>
 			<id>api.wiki</id>
-			<url>https://github.com/kicksolutions/swagger2puml/wiki</url>
+			<url>https://github.com/openapi2puml/openapi2puml/wiki</url>
 		</site>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
 	</distributionManagement>
 
 	<properties>
@@ -110,7 +102,7 @@
 	</dependencyManagement>
 
 	<modules>
-		<module>swagger2puml-core</module>
+		<module>openapi2puml-core</module>
 	</modules>
 
 	<build>
@@ -119,6 +111,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
 				<configuration>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
