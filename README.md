@@ -1,6 +1,7 @@
 # OpenAPI2Puml
 
-[![Build Status](https://api.travis-ci.com/openapi2puml/openapi2puml.svg?branch=master)](https://travis-ci.org/openapi2puml/openapi2puml)
+[![Build Status](https://api.travis-ci.com/openapi2puml/openapi2puml.svg?branch=master)](https://travis-ci.com/openapi2puml/openapi2puml)
+[![codecov](https://codecov.io/gh/openapi2puml/openapi2puml/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi2puml/openapi2puml)
 
 OpenApi to Plant UML conversion tool generates UML Class Diagrams from an Open API definition.
 
