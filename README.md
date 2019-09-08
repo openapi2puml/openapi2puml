@@ -37,10 +37,18 @@ To see the generated PUML file, please click [here](examples/swagger.puml)
 
 ![Swagger-Class-Diagram-Sample](examples/swagger.svg)
 
+### Building:
+
+```
+mvn package
+```
+
+The jar is built with dependencies and placed in the root of the project.
+
 ### Usage:
 
 ```
-java -cp openapi2puml.jar org.openapi2puml.openapi.OpenApi2PlantUML [options]
+java -jar openapi2puml.jar [options]
 
 -i {Path of Swagger Definition (Can be either Yaml or json)}
 -o {Target location where Puml File and Image should generated}
