@@ -1,66 +1,59 @@
-/**
- * 
- */
 package org.openapi2puml.openapi.plantuml.vo;
 
-/**
- * @author MSANTOSH
- *
- */
 public class ClassMembers {
 
-	private String dataType;
-	private String name;
-	private String className;
-	private String cardinality;
-	
-	public ClassMembers() {
-		super();
-	}
+  private String dataType;
+  private String name;
+  private String className;
+  private String cardinality;
 
-	public ClassMembers(String dataType, String name, String className, String cardinality) {
-		super();
-		this.dataType = dataType;
-		this.name = name;
-		this.className = className;
-		this.cardinality = cardinality;
-	}
+  public ClassMembers() {
+    super();
+  }
 
-	public String getDataType() {
-		return dataType;
-	}
+  public ClassMembers(String dataType, String name, String className, String cardinality) {
+    super();
+    this.dataType = dataType;
+    this.name = name;
+    this.className = className;
+    this.cardinality = cardinality;
+  }
 
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
-	}
+  public String getDataType() {
+    return dataType;
+  }
 
-	public String getName() {
-		return name;
-	}
+  public void setDataType(String dataType) {
+    this.dataType = dataType;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public String getClassName() {
-		return className;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+  public String getClassName() {
+    return className;
+  }
 
-	public String getCardinality() {
-		return cardinality;
-	}
+  public void setClassName(String className) {
+    this.className = className;
+  }
 
-	public void setCardinality(String cardinality) {
-		this.cardinality = cardinality;
-	}
+  public String getCardinality() {
+    return cardinality;
+  }
 
-	@Override
-	public String toString() {
-		return "ClassMembers [dataType=" + dataType + ", name=" + name + ", className=" + className + ", cardinality="
-				+ cardinality + "]";
-	}	
+  public void setCardinality(String cardinality) {
+    this.cardinality = cardinality;
+  }
+
+  @Override
+  public String toString() {
+    return "ClassMembers [dataType=" + dataType + ", name=" + name + ", className=" + className + ", cardinality="
+        + cardinality + "]";
+  }
 }

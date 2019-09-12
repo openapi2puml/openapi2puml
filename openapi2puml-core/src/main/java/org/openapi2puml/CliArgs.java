@@ -2,47 +2,44 @@ package org.openapi2puml;
 
 import java.util.HashMap;
 
-/**
- */
 public class CliArgs {
 
-    private String[] args = null;
+  private String[] args = null;
 
-    private HashMap<String, String> parsedCliArguments = new HashMap<String, String>();
-    
-    public CliArgs(String[] args){
-        parse(args);
-    }
+  private HashMap<String, String> parsedCliArguments = new HashMap<String, String>();
 
-    public void parse(String[] arguments){
-        this.args = arguments;
-        parsedCliArguments.clear();
-            
-        for(int i=0; i < args.length; i++) {
-            if(args[i].startsWith("-") ){
-            	parsedCliArguments.put(args[i], args[i+1]);
-            }
-        }
-    }
+  public CliArgs(String[] args) {
+    parse(args);
+  }
 
-    public String[] args() {
-        return args;
-    }
+  public void parse(String[] arguments) {
+    this.args = arguments;
+    parsedCliArguments.clear();
 
-    public String arg(int index){
-        return args[index];
+    for (int i = 0; i < args.length; i++) {
+      if (args[i].startsWith("-")) {
+        parsedCliArguments.put(args[i], args[i + 1]);
+      }
     }
+  }
 
-    public boolean isArgumentPresent(String argument) {
-        return parsedCliArguments.containsKey(argument);
-    }
+  public String[] args() {
+    return args;
+  }
 
-    public String getArgumentValue(String argument, String defaultValue) {
-    	if(!isArgumentPresent(argument)){
-    		return defaultValue;
-    	}
-    	else{
-    		return parsedCliArguments.get(argument);
-    	}
+  public String arg(int index) {
+    return args[index];
+  }
+
+  public boolean isArgumentPresent(String argument) {
+    return parsedCliArguments.containsKey(argument);
+  }
+
+  public String getArgumentValue(String argument, String defaultValue) {
+    if (!isArgumentPresent(argument)) {
+      return defaultValue;
+    } else {
+      return parsedCliArguments.get(argument);
     }
+  }
 }

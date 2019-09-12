@@ -2,86 +2,81 @@ package org.openapi2puml.openapi.plantuml.vo;
 
 import java.util.List;
 
-/**
- * 
- * @author MSANTOSH
- *
- */
 public class ClassDiagram {
-	
-	private String className;
-	private boolean isClass;
-	private String description;
-	private List<ClassMembers> fields;
-	private List<ClassRelation> childClass;
-	private String superClass;
-	
-	public ClassDiagram(String className, String description, List<ClassMembers> fields,
-			List<ClassRelation> childClass,boolean isClass,String superClass) {
-		super();
-		this.className = className;
-		this.description = description;
-		this.fields = fields;
-		this.childClass = childClass;
-		this.isClass = isClass;
-		this.superClass=superClass;
-	}
 
-	public ClassDiagram(){
-		super();
-	}
-	
-	public String getClassName() {
-		return className;
-	}
+  private String className;
+  private boolean isClass;
+  private String description;
+  private List<ClassMembers> fields;
+  private List<ClassRelation> childClass;
+  private String superClass;
 
-	public void setClassName(String className) {
-		this.className = className;
-	}
+  public ClassDiagram(String className, String description, List<ClassMembers> fields,
+                      List<ClassRelation> childClass, boolean isClass, String superClass) {
+    super();
+    this.className = className;
+    this.description = description;
+    this.fields = fields;
+    this.childClass = childClass;
+    this.isClass = isClass;
+    this.superClass = superClass;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public ClassDiagram() {
+    super();
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public String getClassName() {
+    return className;
+  }
 
-	public List<ClassMembers> getFields() {
-		return fields;
-	}
+  public void setClassName(String className) {
+    this.className = className;
+  }
 
-	public void setFields(List<ClassMembers> fields) {
-		this.fields = fields;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public List<ClassRelation> getChildClass() {
-		return childClass;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public void setChildClass(List<ClassRelation> childClass) {
-		this.childClass = childClass;
-	}
+  public List<ClassMembers> getFields() {
+    return fields;
+  }
 
-	public boolean isClass() {
-		return isClass;
-	}
+  public void setFields(List<ClassMembers> fields) {
+    this.fields = fields;
+  }
 
-	public void setClass(boolean isClass) {
-		this.isClass = isClass;
-	}
+  public List<ClassRelation> getChildClass() {
+    return childClass;
+  }
 
-	public String getSuperClass() {
-		return superClass;
-	}
+  public void setChildClass(List<ClassRelation> childClass) {
+    this.childClass = childClass;
+  }
 
-	public void setSuperClass(String superClass) {
-		this.superClass = superClass;
-	}
+  public boolean isClass() {
+    return isClass;
+  }
 
-	@Override
-	public String toString() {
-		return "ClassDiagram [className=" + className + ", isClass=" + isClass + ", description=" + description
-				+ ", fields=" + fields + ", childClass=" + childClass + ", superClass=" + superClass + "]";
-	}
+  public void setClass(boolean isClass) {
+    this.isClass = isClass;
+  }
+
+  public String getSuperClass() {
+    return superClass;
+  }
+
+  public void setSuperClass(String superClass) {
+    this.superClass = superClass;
+  }
+
+  @Override
+  public String toString() {
+    return "ClassDiagram [className=" + className + ", isClass=" + isClass + ", description=" + description
+        + ", fields=" + fields + ", childClass=" + childClass + ", superClass=" + superClass + "]";
+  }
 }

@@ -382,6 +382,4 @@ public class PlantUMLClassHelper {
     return FormatUtility.toTitleCase(className);
   }
 
-
-
 }
