@@ -16,7 +16,7 @@ public class MustacheUtility {
   private static final Logger LOGGER = Logger.getLogger(MustacheUtility.class.getName());
 
   public String createPlantUmlFile(File targetLocation, Map<String, Object> additionalProperties)
-      throws IOException, IllegalAccessException{
+      throws IOException, IllegalAccessException {
     // TODO - HCode file name
     String plantUmlFilePath = targetLocation.getAbsolutePath() + File.separator + "swagger.puml";
 

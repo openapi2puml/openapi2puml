@@ -2,12 +2,6 @@
 hide empty members
 set namespaceSeparator none
 
-skinparam class {
-	BackgroundColor PaleGreen
-	ArrowColor RoyalBlue
-	BorderColor DimGray
-}
-
 {{#classDiagrams}}
 {{#isClass}}class{{/isClass}} {{^isClass}}enum{{/isClass}} {{className}} {{#superClass}} < ? extends {{superClass}}> {{/superClass}}{
 	 {{#fields}}	

@@ -1,76 +1,70 @@
-/**
- * 
- */
 package org.openapi2puml.openapi.plantuml.vo;
 
-/**
- * @author MSANTOSH
- *
- */
 public class ClassRelation {
 
-	private String targetClass;
-	private boolean isExtension;
-	private boolean isComposition;
-	private String cardinality;
-	private String sourceClass;
-	
-	public ClassRelation() {
-		super();
-	}
-	
-	public ClassRelation(String targetClass, boolean isExtension, boolean isComposition,String cardinality,String sourceClass) {
-		super();
-		this.targetClass = targetClass;
-		this.isExtension = isExtension;
-		this.isComposition = isComposition;
-		this.cardinality = cardinality;
-		this.sourceClass = sourceClass;
-	}
+  private String targetClass;
+  private boolean isExtension;
+  private boolean isComposition;
+  private String cardinality;
+  private String sourceClass;
 
-	public String getTargetClass() {
-		return targetClass;
-	}
+  public ClassRelation() {
+    super();
+  }
 
-	public void setTargetClass(String targetClass) {
-		this.targetClass = targetClass;
-	}
+  public ClassRelation(String targetClass, boolean isExtension, boolean isComposition, String cardinality,
+                       String sourceClass) {
+    super();
+    this.targetClass = targetClass;
+    this.isExtension = isExtension;
+    this.isComposition = isComposition;
+    this.cardinality = cardinality;
+    this.sourceClass = sourceClass;
+  }
 
-	public boolean isExtension() {
-		return isExtension;
-	}
+  public String getTargetClass() {
+    return targetClass;
+  }
 
-	public void setExtension(boolean isExtension) {
-		this.isExtension = isExtension;
-	}
+  public void setTargetClass(String targetClass) {
+    this.targetClass = targetClass;
+  }
 
-	public boolean isComposition() {
-		return isComposition;
-	}
+  public boolean isExtension() {
+    return isExtension;
+  }
 
-	public void setComposition(boolean isComposition) {
-		this.isComposition = isComposition;
-	}
+  public void setExtension(boolean isExtension) {
+    this.isExtension = isExtension;
+  }
 
-	public String getCardinality() {
-		return cardinality;
-	}
+  public boolean isComposition() {
+    return isComposition;
+  }
 
-	public void setCardinality(String cardinality) {
-		this.cardinality = cardinality;
-	}
+  public void setComposition(boolean isComposition) {
+    this.isComposition = isComposition;
+  }
 
-	public String getSourceClass() {
-		return sourceClass;
-	}
+  public String getCardinality() {
+    return cardinality;
+  }
 
-	public void setSourceClass(String sourceClass) {
-		this.sourceClass = sourceClass;
-	}
+  public void setCardinality(String cardinality) {
+    this.cardinality = cardinality;
+  }
 
-	@Override
-	public String toString() {
-		return "ClassRelation [targetClass=" + targetClass + ", isExtension=" + isExtension + ", isComposition="
-				+ isComposition + ", cardinality=" + cardinality + ", sourceClass=" + sourceClass + "]";
-	}
+  public String getSourceClass() {
+    return sourceClass;
+  }
+
+  public void setSourceClass(String sourceClass) {
+    this.sourceClass = sourceClass;
+  }
+
+  @Override
+  public String toString() {
+    return "ClassRelation [targetClass=" + targetClass + ", isExtension=" + isExtension + ", isComposition="
+        + isComposition + ", cardinality=" + cardinality + ", sourceClass=" + sourceClass + "]";
+  }
 }
