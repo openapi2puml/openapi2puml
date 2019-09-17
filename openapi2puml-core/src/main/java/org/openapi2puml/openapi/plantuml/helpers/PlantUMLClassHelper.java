@@ -1,22 +1,24 @@
 package org.openapi2puml.openapi.plantuml.helpers;
 
-import org.openapi2puml.openapi.plantuml.vo.ClassDiagram;
-import org.openapi2puml.openapi.plantuml.vo.ClassMembers;
-import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
 import io.swagger.models.*;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openapi2puml.openapi.plantuml.FormatUtility;
+import org.openapi2puml.openapi.plantuml.vo.ClassDiagram;
+import org.openapi2puml.openapi.plantuml.vo.ClassMembers;
+import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 public class PlantUMLClassHelper {
 
-  private static final Logger LOGGER = Logger.getLogger(PlantUMLClassHelper.class.getName());
+  private static final Logger logger = LogManager.getLogger(PlantUMLClassHelper.class);
+
   private boolean includeCardinality;
 
   private static final String CARDINALITY_ONE_TO_MANY = "1..*";
@@ -27,16 +29,17 @@ public class PlantUMLClassHelper {
   }
 
   public List<ClassDiagram> processSwaggerModels(Swagger swagger) {
-    LOGGER.entering(LOGGER.getName(), "processSwaggerModels");
 
     List<ClassDiagram> classDiagrams = new ArrayList<>();
     Map<String, Model> modelsMap = swagger.getDefinitions();
+
+    logger.debug("Models to Process: " + modelsMap.keySet().toString());
 
     for (Map.Entry<String, Model> models : modelsMap.entrySet()) {
       String className = models.getKey();
       Model modelObject = models.getValue();
 
-      LOGGER.info("Processing Model " + className);
+      logger.debug("Processing Model: " + className);
 
       String superClass = getSuperClass(modelObject);
       List<ClassMembers> classMembers = getClassMembers(modelObject, modelsMap);
@@ -45,14 +48,10 @@ public class PlantUMLClassHelper {
           getChildClasses(classMembers, superClass), isModelClass(modelObject), superClass));
     }
 
-    LOGGER.exiting(LOGGER.getName(), "processSwaggerModels");
-
     return classDiagrams;
   }
 
   private boolean isModelClass(Model model) {
-    LOGGER.entering(LOGGER.getName(), "isModelClass");
-
     boolean isModelClass = true;
 
     if (model instanceof ModelImpl) {
@@ -63,14 +62,10 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "isModelClass");
-
     return isModelClass;
   }
 
   private String getSuperClass(Model model) {
-    LOGGER.entering(LOGGER.getName(), "getSuperClass");
-
     String superClass = null;
 
     if (model instanceof ArrayModel) {
@@ -88,14 +83,10 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getSuperClass");
-
     return superClass;
   }
 
   private List<ClassRelation> getChildClasses(List<ClassMembers> classMembers, String superClass) {
-    LOGGER.entering(LOGGER.getName(), "getChildClasses");
-
     List<ClassRelation> childClasses = new ArrayList<>();
 
     for (ClassMembers member : classMembers) {
@@ -118,14 +109,10 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getChildClasses");
-
     return childClasses;
   }
 
   private List<ClassMembers> getClassMembers(Model modelObject, Map<String, Model> modelsMap) {
-    LOGGER.entering(LOGGER.getName(), "getClassMembers");
-
     List<ClassMembers> classMembers = new ArrayList<>();
 
     if (modelObject instanceof ModelImpl) {
@@ -136,12 +123,10 @@ public class PlantUMLClassHelper {
       classMembers = getClassMembers((ArrayModel) modelObject, modelsMap);
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMembers");
     return classMembers;
   }
 
   private List<ClassMembers> getClassMembers(ArrayModel arrayModel, Map<String, Model> modelsMap) {
-    LOGGER.entering(LOGGER.getName(), "getClassMembers-ArrayModel");
 
     List<ClassMembers> classMembers = new ArrayList<>();
 
@@ -151,7 +136,6 @@ public class PlantUMLClassHelper {
       classMembers.add(getRefClassMembers((RefProperty) propertyObject));
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMembers-ArrayModel");
     return classMembers;
   }
 
@@ -167,8 +151,6 @@ public class PlantUMLClassHelper {
    * @return
    */
   private List<ClassMembers> getClassMembers(ComposedModel composedModel, Map<String, Model> modelsMap, Set<Model> visited) {
-    LOGGER.entering(LOGGER.getName(), "getClassMembers-ComposedModel-DeepNest");
-
     List<ClassMembers> classMembers = new ArrayList<>();
     Map<String, Property> childProperties = new HashMap<>();
 
@@ -212,13 +194,10 @@ public class PlantUMLClassHelper {
     }
 
     visited.add(composedModel);
-    LOGGER.exiting(LOGGER.getName(), "getClassMembers-ComposedModel-DeepNest");
     return classMembers;
   }
 
   private List<ClassMembers> getClassMembers(ModelImpl model, Map<String, Model> modelsMap) {
-    LOGGER.entering(LOGGER.getName(), "getClassMembers-ModelImpl");
-
     List<ClassMembers> classMembers = new ArrayList<>();
 
     Map<String, Property> modelMembers = model.getProperties();
@@ -240,13 +219,10 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMembers-ModelImpl");
-
     return classMembers;
   }
 
   private ClassMembers getRefClassMembers(RefProperty refProperty) {
-    LOGGER.entering(LOGGER.getName(), "getRefClassMembers");
     ClassMembers classMember = new ClassMembers();
     classMember.setClassName(refProperty.getSimpleRef());
     classMember.setName(" ");
@@ -255,12 +231,10 @@ public class PlantUMLClassHelper {
       classMember.setCardinality(CARDINALITY_NONE_TO_MANY);
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getRefClassMembers");
     return classMember;
   }
 
   private List<ClassMembers> getEnum(List<String> enumValues) {
-    LOGGER.entering(LOGGER.getName(), "getEnum");
 
     List<ClassMembers> classMembers = new ArrayList<>();
 
@@ -272,13 +246,11 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getEnum");
     return classMembers;
   }
 
   private List<ClassMembers> convertModelPropertiesToClassMembers(Map<String, Property> modelMembers,
                                                                   Model modelObject, Map<String, Model> models) {
-    LOGGER.entering(LOGGER.getName(), "convertModelPropertiesToClassMembers");
 
     List<ClassMembers> classMembers = new ArrayList<>();
 
@@ -301,13 +273,11 @@ public class PlantUMLClassHelper {
       classMembers.add(classMemberObject);
     }
 
-    LOGGER.exiting(LOGGER.getName(), "convertModelPropertiesToClassMembers");
     return classMembers;
   }
 
   private ClassMembers getClassMember(ArrayProperty property, Model modelObject, Map<String, Model> models,
                                       String variablName) {
-    LOGGER.entering(LOGGER.getName(), "getClassMember-ArrayProperty");
 
     ClassMembers classMemberObject = new ClassMembers();
     Property propObject = property.getItems();
@@ -318,24 +288,20 @@ public class PlantUMLClassHelper {
       classMemberObject = getClassMember((StringProperty) propObject, variablName);
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMember-ArrayProperty");
     return classMemberObject;
   }
 
   private ClassMembers getClassMember(StringProperty stringProperty, String variablName) {
-    LOGGER.entering(LOGGER.getName(), "getClassMember-StringProperty");
 
     ClassMembers classMemberObject = new ClassMembers();
     classMemberObject.setDataType(getDataType(stringProperty.getType(), true));
     classMemberObject.setName(variablName);
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMember-StringProperty");
     return classMemberObject;
   }
 
   private ClassMembers getClassMember(RefProperty refProperty, Map<String, Model> models, Model modelObject,
                                       String variableName) {
-    LOGGER.entering(LOGGER.getName(), "getClassMember-RefProperty");
 
     ClassMembers classMemberObject = new ClassMembers();
     classMemberObject.setDataType(getDataType(refProperty.getSimpleRef(), true));
@@ -353,13 +319,11 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "getClassMember-RefProperty");
     return classMemberObject;
   }
 
   private boolean isRequiredProperty(Model modelObject, String propertyName) {
     boolean isRequiredProperty = false;
-    LOGGER.entering(LOGGER.getName(), "isRequiredProperty");
 
     if (modelObject != null) {
       if (modelObject instanceof ModelImpl) {
@@ -370,7 +334,6 @@ public class PlantUMLClassHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "isRequiredProperty");
     return isRequiredProperty;
   }
 
