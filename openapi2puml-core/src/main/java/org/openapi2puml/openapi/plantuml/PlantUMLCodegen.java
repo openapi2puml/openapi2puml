@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
 public class PlantUMLCodegen {
 
-  private static final Logger LOGGER = Logger.getLogger(PlantUMLCodegen.class.getName());
   static final String TITLE = "title";
   static final String VERSION = "version";
   static final String CLASS_DIAGRAMS = "classDiagrams";
@@ -45,20 +43,15 @@ public class PlantUMLCodegen {
    * @throws IllegalAccessException - if there is an issue generating the file information
    */
   public String generatePlantUmlFile(Swagger swagger) throws IOException, IllegalAccessException {
-    LOGGER.entering(LOGGER.getName(), "generatePlantUmlFile");
-
     Map<String, Object> plantUmlObjectModelMap = convertSwaggerToPlantUmlObjectModelMap(swagger);
 
     MustacheUtility mustacheUtility = new MustacheUtility();
     String plantUmlFilePath = mustacheUtility.createPlantUmlFile(targetLocation, plantUmlObjectModelMap);
 
-    LOGGER.exiting(LOGGER.getName(), "generatePlantUmlFile");
     return plantUmlFilePath;
   }
 
   public Map<String, Object> convertSwaggerToPlantUmlObjectModelMap(Swagger swagger) {
-    LOGGER.entering(LOGGER.getName(), "convertSwaggerToPlantUmlObjectModelMap");
-
     Map<String, Object> additionalProperties = new TreeMap<>();
 
     additionalProperties.put(TITLE, swagger.getInfo().getTitle());
@@ -80,8 +73,6 @@ public class PlantUMLCodegen {
     PlantUMLRelationHelper plantUMLRelationHelper = new PlantUMLRelationHelper();
     // TODO - Test class for this part
     additionalProperties.put(ENTITY_RELATIONS, plantUMLRelationHelper.getRelations(classDiagrams, interfaceDiagrams));
-
-    LOGGER.exiting(LOGGER.getName(), "convertSwaggerToPlantUmlObjectModelMap");
 
     return additionalProperties;
   }

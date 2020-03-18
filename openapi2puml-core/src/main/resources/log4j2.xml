@@ -13,6 +13,11 @@
         <Logger name="org.openapi2puml" level="debug" additivity="false">
             <AppenderRef ref="ProcessingLogToConsole"/>
         </Logger>
+
+        <Logger name="io.swagger.parser" level="error" additivity="false">
+            <AppenderRef ref="ProcessingLogToConsole"/>
+        </Logger>
+
         <Root level="error">
             <AppenderRef ref="LogToConsole"/>
         </Root>

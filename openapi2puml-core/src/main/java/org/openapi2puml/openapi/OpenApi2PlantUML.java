@@ -3,11 +3,11 @@ package org.openapi2puml.openapi;
 import org.apache.commons.lang3.StringUtils;
 import org.openapi2puml.CliArgs;
 import org.openapi2puml.openapi.plantuml.PlantUMLGenerator;
-
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OpenApi2PlantUML {
-  private static final Logger LOGGER = Logger.getLogger(OpenApi2PlantUML.class.getName());
+  private static final Logger LOGGER = LogManager.getLogger(OpenApi2PlantUML.class);
   // TODO - rewrite usage
   private static final String USAGE = new StringBuilder()
       .append(" Usage: ")
@@ -34,7 +34,6 @@ public class OpenApi2PlantUML {
    * @param args
    */
   private void init(String args[]) {
-    LOGGER.entering(LOGGER.getName(), "init");
 
     CliArgs cliArgs = new CliArgs(args);
     String specFile = cliArgs.getArgumentValue("-i", "");
@@ -47,10 +46,8 @@ public class OpenApi2PlantUML {
     if (StringUtils.isNotEmpty(specFile) && StringUtils.isNotEmpty(output)) {
       process(specFile, output, generateDefinitionModelOnly, includeCardinality, generateSvg);
     } else {
-      LOGGER.severe(USAGE);
+      LOGGER.error(USAGE);
     }
-
-    LOGGER.exiting(LOGGER.getName(), "init");
   }
 
   /**

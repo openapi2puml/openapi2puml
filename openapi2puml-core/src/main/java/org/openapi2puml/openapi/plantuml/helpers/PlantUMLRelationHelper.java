@@ -7,11 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class PlantUMLRelationHelper {
-
-  private static final Logger LOGGER = Logger.getLogger(PlantUMLRelationHelper.class.getName());
 
   public List<ClassRelation> getRelations(List<ClassDiagram> classDiagrams, List<InterfaceDiagram> interfaceDiagrams) {
     List<ClassRelation> relations = new ArrayList<>();
