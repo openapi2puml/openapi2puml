@@ -33,7 +33,7 @@ public class PlantUMLClassHelper {
     List<ClassDiagram> classDiagrams = new ArrayList<>();
     Map<String, Model> modelsMap = swagger.getDefinitions();
 
-    logger.debug("Models to Process: " + modelsMap.keySet().toString());
+    logger.debug("Swagger Models to Process to PlantUML Classes: " + modelsMap.keySet().toString());
 
     for (Map.Entry<String, Model> models : modelsMap.entrySet()) {
       String className = models.getKey();
@@ -100,6 +100,7 @@ public class PlantUMLClassHelper {
         }
       }
 
+      // TODO - why do we not set the source class name here instead of in the interface diagram handling
       if (!alreadyExists && member.getClassName() != null && member.getClassName().trim().length() > 0) {
         if (StringUtils.isNotEmpty(superClass)) {
           childClasses.add(new ClassRelation(member.getClassName(), true, false, member.getCardinality(),null));
@@ -167,7 +168,7 @@ public class PlantUMLClassHelper {
         RefModel refModel = (RefModel) currentModel;
         // This line throws an NPE when encountering deeply nested class hierarchies because it assumes any child
         // classes are RefModel and not ComposedModel
-//				childProperties.putAll(modelsMap.get(refModel.getSimpleRef()).getProperties());
+        // childProperties.putAll(modelsMap.get(refModel.getSimpleRef()).getProperties());
 
         Model parentRefModel = modelsMap.get(refModel.getSimpleRef());
 

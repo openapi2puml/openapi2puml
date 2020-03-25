@@ -1,5 +1,7 @@
 package org.openapi2puml.openapi.plantuml.helpers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openapi2puml.openapi.plantuml.vo.ClassDiagram;
 import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
 import org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram;
@@ -9,22 +11,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlantUMLRelationHelper {
+  private static final Logger logger = LogManager.getLogger(PlantUMLRelationHelper.class);
 
   public List<ClassRelation> getRelations(List<ClassDiagram> classDiagrams, List<InterfaceDiagram> interfaceDiagrams) {
     List<ClassRelation> relations = new ArrayList<>();
-    relations.addAll(getAllModelRelations(classDiagrams));
+    relations.addAll(getAllClassRelations(classDiagrams));
     relations.addAll(getAllInterfacesRelations(interfaceDiagrams));
 
-    return filterUnique(relations, false);
+    return filterUniqueRelations(relations, false);
   }
 
-  private List<ClassRelation> getAllModelRelations(List<ClassDiagram> classDiagrams) {
+  private List<ClassRelation> getAllClassRelations(List<ClassDiagram> classDiagrams) {
     List<ClassRelation> modelRelations = new ArrayList<>();
 
     for (ClassDiagram classDiagram : classDiagrams) {
+      logger.debug("Creating Relations for Class: " + classDiagram.getClassName());
       List<ClassRelation> classRelations = classDiagram.getChildClass();
 
       for (ClassRelation classRelation : classRelations) {
+        logger.debug("- Relation to target class: " + classRelation.getTargetClass());
+        // TODO - check why we don't set this (and for interfaces) when creating the relations
         classRelation.setSourceClass(classDiagram.getClassName());
         modelRelations.add(classRelation);
       }
@@ -36,11 +42,14 @@ public class PlantUMLRelationHelper {
   private List<ClassRelation> getAllInterfacesRelations(List<InterfaceDiagram> interfaceDiagrams) {
     List<ClassRelation> modelRelations = new ArrayList<>();
 
-    for (InterfaceDiagram classDiagram : interfaceDiagrams) {
-      List<ClassRelation> classRelations = classDiagram.getChildClass();
+    for (InterfaceDiagram interfaceDiagram : interfaceDiagrams) {
+      logger.debug("Creating Relations for Interface: " + interfaceDiagram.getInterfaceName());
+      List<ClassRelation> classRelations = interfaceDiagram.getChildClass();
 
       for (ClassRelation classRelation : classRelations) {
-        classRelation.setSourceClass(classDiagram.getInterfaceName());
+        logger.debug("- Relation to target class: " + classRelation.getTargetClass());
+        // TODO - check why we don't set this (and for interfaces) when creating the relations
+        classRelation.setSourceClass(interfaceDiagram.getInterfaceName());
         modelRelations.add(classRelation);
       }
     }
@@ -48,23 +57,33 @@ public class PlantUMLRelationHelper {
     return modelRelations;
   }
 
-  private List<ClassRelation> filterUnique(List<ClassRelation> relations, boolean compareTargetOnly) {
-    List<ClassRelation> uniqueList = new ArrayList<>();
+  /**
+   * From the list of ClassRelations from the Classes and Interfaces, find the list of
+   * unique Class Relations
+   *
+   * TODO - why not just use a set before this -> need to check the comparison.
+   *
+   * @param allRelations
+   * @param compareTargetOnly
+   * @return
+   */
+  private List<ClassRelation> filterUniqueRelations(List<ClassRelation> allRelations, boolean compareTargetOnly) {
+    List<ClassRelation> uniqueRelations = new ArrayList<>();
 
-    for (ClassRelation relation : relations) {
-      if (!isTargetClassInMap(relation, uniqueList, compareTargetOnly)) {
-        uniqueList.add(relation);
+    for (ClassRelation relation : allRelations) {
+      if (!isRelationAlreadyInUniqueRelations(relation, uniqueRelations, compareTargetOnly)) {
+        uniqueRelations.add(relation);
       }
     }
 
-    return uniqueList;
+    return uniqueRelations;
   }
 
-  private boolean isTargetClassInMap(ClassRelation sourceRelation, List<ClassRelation> relatedResponses,
-                                     boolean considerTargetOnly) {
+  private boolean isRelationAlreadyInUniqueRelations(ClassRelation sourceRelation, List<ClassRelation> relatedResponses,
+                                                     boolean considerTargetClassOnly) {
     for (ClassRelation relation : relatedResponses) {
 
-      if (considerTargetOnly) {
+      if (considerTargetClassOnly) {
         if (StringUtils.isNotEmpty(relation.getTargetClass()) && StringUtils.isNotEmpty(sourceRelation.getTargetClass())
             && relation.getTargetClass().equalsIgnoreCase(sourceRelation.getTargetClass())) {
           return true;

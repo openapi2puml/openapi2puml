@@ -18,12 +18,11 @@ import java.util.Map;
 public class PlantUMLInterfaceDiagramHelper {
   private static final Logger logger = LogManager.getLogger(PlantUMLInterfaceDiagramHelper.class);
 
-
   public List<InterfaceDiagram> processSwaggerPaths(Swagger swagger) {
     List<InterfaceDiagram> interfaceDiagrams = new ArrayList<>();
     Map<String, Path> paths = swagger.getPaths();
 
-    logger.debug("Paths to Process: " + paths.keySet().toString());
+    logger.debug("Swagger Paths to Process to PlantUML Interfaces: " + paths.keySet().toString());
 
     for (Map.Entry<String, Path> entry : paths.entrySet()) {
       Path pathObject = entry.getValue();
