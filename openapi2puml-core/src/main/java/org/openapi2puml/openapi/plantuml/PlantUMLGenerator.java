@@ -5,13 +5,12 @@ import io.swagger.parser.SwaggerParser;
 import net.sourceforge.plantuml.FileFormat;
 import net.sourceforge.plantuml.FileFormatOption;
 import net.sourceforge.plantuml.SourceFileReader;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class PlantUMLGenerator {
-  private static final Logger LOGGER = Logger.getLogger(PlantUMLGenerator.class.getName());
+  private static final Logger LOGGER = LogManager.getLogger(PlantUMLGenerator.class);
 
   public PlantUMLGenerator() {
     super();
@@ -19,17 +18,15 @@ public class PlantUMLGenerator {
 
   public void transformOpenApi2Puml(String specFile, String output, boolean generateDefinitionModelOnly,
                                     boolean includeCardinality, boolean generateSvg) {
-    LOGGER.entering(LOGGER.getName(), "transformOpenApi2Puml");
-
     File swaggerSpecFile = new File(specFile);
     File targetLocation = new File(output);
 
+    // TODO - change so we can handle a named output file too
     if (swaggerSpecFile.exists() && !swaggerSpecFile.isDirectory()
         && targetLocation.exists() && targetLocation.isDirectory()) {
 
-      LOGGER.info("Processing File --> " + specFile);
+      LOGGER.info("Processing Swagger Spec File: " + specFile);
       Swagger swaggerObject = new SwaggerParser().read(swaggerSpecFile.getAbsolutePath());
-
       try {
         PlantUMLCodegen codegen = new PlantUMLCodegen(swaggerObject, targetLocation, generateDefinitionModelOnly,
             includeCardinality);
@@ -40,15 +37,15 @@ public class PlantUMLGenerator {
           generateUmlDiagramFile(pumlPath, targetLocation);
         }
       } catch (Exception e) {
-        LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        // TODO - Replace with better error message
+        LOGGER.error(e.getMessage(), e);
         throw new RuntimeException(e);
       }
 
     } else {
+      // TODO - better handling than a runtime exception
       throw new RuntimeException("Spec File or Output Location are not valid");
     }
-
-    LOGGER.exiting(LOGGER.getName(), "transformOpenApi2Puml");
   }
 
   private void generateUmlDiagramFile(String plantUmlFilePath, File targetOutputFile) throws Exception {
