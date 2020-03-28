@@ -1,5 +1,7 @@
 package org.openapi2puml.openapi.plantuml.helpers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
 import org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram;
 import org.openapi2puml.openapi.plantuml.vo.MethodDefinitions;
@@ -12,21 +14,20 @@ import org.openapi2puml.openapi.plantuml.FormatUtility;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class PlantUMLInterfaceDiagramHelper {
-
-  private static final Logger LOGGER = Logger.getLogger(PlantUMLInterfaceDiagramHelper.class.getName());
+  private static final Logger logger = LogManager.getLogger(PlantUMLInterfaceDiagramHelper.class);
 
   public List<InterfaceDiagram> processSwaggerPaths(Swagger swagger) {
-    LOGGER.entering(LOGGER.getName(), "processSwaggerPaths");
     List<InterfaceDiagram> interfaceDiagrams = new ArrayList<>();
     Map<String, Path> paths = swagger.getPaths();
+
+    logger.debug("Swagger Paths to Process to PlantUML Interfaces: " + paths.keySet().toString());
 
     for (Map.Entry<String, Path> entry : paths.entrySet()) {
       Path pathObject = entry.getValue();
 
-      LOGGER.info("Processing Path --> " + entry.getKey());
+      logger.debug("Processing Path: " + entry.getKey());
 
       List<Operation> operations = pathObject.getOperations();
       String uri = entry.getKey();
@@ -36,13 +37,10 @@ public class PlantUMLInterfaceDiagramHelper {
       }
     }
 
-    LOGGER.exiting(LOGGER.getName(), "processSwaggerPaths");
     return interfaceDiagrams;
   }
 
   private InterfaceDiagram getInterfaceDiagram(Operation operation, String uri) {
-    LOGGER.entering(LOGGER.getName(), "getInterfaceDiagram");
-
     InterfaceDiagram interfaceDiagram = new InterfaceDiagram();
     String interfaceName = getInterfaceName(operation.getTags(), operation, uri);
     List<String> errorClassNames = getErrorClassNames(operation);
@@ -51,7 +49,6 @@ public class PlantUMLInterfaceDiagramHelper {
     interfaceDiagram.setMethods(getInterfaceMethods(operation));
     interfaceDiagram.setChildClass(getInterfaceRelations(operation, errorClassNames));
 
-    LOGGER.exiting(LOGGER.getName(), "getInterfaceDiagram");
     return interfaceDiagram;
   }
 
