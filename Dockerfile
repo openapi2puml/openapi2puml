@@ -27,4 +27,4 @@ RUN pwd
 # VOLUME /tmp
 
 # FINAL COMMAND to be executed when a container is created
-CMD [ "java", "-jar", "/openapi2puml/openapi2puml.jar" ]
+CMD [ "java", "-jar", "/openapi2puml/openapi2puml.jar", "-i", "examples/swagger.yaml", "-o", "/openapi2puml/examples" ]

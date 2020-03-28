@@ -2,12 +2,6 @@
 hide empty members
 set namespaceSeparator none
 
-skinparam class {
-	BackgroundColor PaleGreen
-	ArrowColor RoyalBlue
-	BorderColor DimGray
-}
-
 class  Order {
 		 - id <b>:Int64</b> 
 		 - petId <b>:Int64</b> 
