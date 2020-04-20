@@ -3,18 +3,17 @@ package org.openapi2puml.openapi.plantuml.vo;
 public class ClassRelation {
 
   private String targetClass;
+  // TODO - replace by enum
   private boolean isExtension;
   private boolean isComposition;
   private String cardinality;
   private String sourceClass;
 
   public ClassRelation() {
-    super();
   }
 
   public ClassRelation(String targetClass, boolean isExtension, boolean isComposition, String cardinality,
                        String sourceClass) {
-    super();
     this.targetClass = targetClass;
     this.isExtension = isExtension;
     this.isComposition = isComposition;

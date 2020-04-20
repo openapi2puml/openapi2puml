@@ -1,25 +1,28 @@
 package org.openapi2puml.openapi.plantuml.helpers;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
-import org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram;
-import org.openapi2puml.openapi.plantuml.vo.MethodDefinitions;
 import io.swagger.models.*;
 import io.swagger.models.parameters.*;
 import io.swagger.models.properties.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openapi2puml.openapi.plantuml.FormatUtility;
+import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
+import org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram;
+import org.openapi2puml.openapi.plantuml.vo.MethodDefinitions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PlantUMLInterfaceDiagramHelper {
   private static final Logger logger = LogManager.getLogger(PlantUMLInterfaceDiagramHelper.class);
 
+  private static final String SUFFIX_API = "Api";
+
   public List<InterfaceDiagram> processSwaggerPaths(Swagger swagger) {
-    List<InterfaceDiagram> interfaceDiagrams = new ArrayList<>();
+    Map<String, InterfaceDiagram> interfaceDiagramMap = new HashMap<>();
     Map<String, Path> paths = swagger.getPaths();
 
     logger.debug("Swagger Paths to Process to PlantUML Interfaces: " + paths.keySet().toString());
@@ -33,11 +36,32 @@ public class PlantUMLInterfaceDiagramHelper {
       String uri = entry.getKey();
 
       for (Operation operation : operations) {
-        interfaceDiagrams.add(getInterfaceDiagram(operation, uri));
+        // TODO - refactor to take the map of existing InterfaceDiagrams and check if it's found instead of the merge
+        InterfaceDiagram interfaceDiagram = getInterfaceDiagram(operation, uri);
+        InterfaceDiagram existingInterfaceDiagram = interfaceDiagramMap.get(interfaceDiagram.getInterfaceName());
+        if (existingInterfaceDiagram == null) {
+          interfaceDiagramMap.put(interfaceDiagram.getInterfaceName(), interfaceDiagram);
+        } else {
+          mergeInterfaceDiagrams(existingInterfaceDiagram, interfaceDiagram);
+        }
       }
     }
 
-    return interfaceDiagrams;
+    return new ArrayList(interfaceDiagramMap.values());
+  }
+
+  private InterfaceDiagram mergeInterfaceDiagrams(InterfaceDiagram existingInterface, InterfaceDiagram newInterface) {
+
+    if (existingInterface.getInterfaceName().equalsIgnoreCase(newInterface.getInterfaceName())) {
+      // add the details of new to existing
+      // TODO - decent chance of duplicates here for classes etc
+
+      existingInterface.getErrorClasses().addAll(newInterface.getErrorClasses());
+      existingInterface.getMethods().addAll(newInterface.getMethods());
+      existingInterface.getChildClasses().addAll(newInterface.getChildClasses());
+    }
+
+    return existingInterface;
   }
 
   private InterfaceDiagram getInterfaceDiagram(Operation operation, String uri) {
@@ -47,7 +71,7 @@ public class PlantUMLInterfaceDiagramHelper {
     interfaceDiagram.setInterfaceName(interfaceName);
     interfaceDiagram.setErrorClasses(errorClassNames);
     interfaceDiagram.setMethods(getInterfaceMethods(operation));
-    interfaceDiagram.setChildClass(getInterfaceRelations(operation, errorClassNames));
+    interfaceDiagram.setChildClasses(getInterfaceRelations(operation, errorClassNames));
 
     return interfaceDiagram;
   }
@@ -55,15 +79,18 @@ public class PlantUMLInterfaceDiagramHelper {
   private String getInterfaceName(List<String> tags, Operation operation, String uri) {
     String interfaceName;
 
-    if (!tags.isEmpty()) {
+    if (tags != null && !tags.isEmpty()) {
       interfaceName = FormatUtility.toTitleCase(tags.get(0).replaceAll(" ", ""));
     } else if (StringUtils.isNotEmpty(operation.getOperationId())) {
       interfaceName = FormatUtility.toTitleCase(operation.getOperationId());
     } else {
-      interfaceName = FormatUtility.toTitleCase(uri.replaceAll("{", "").replaceAll("}", "").replaceAll("\\", ""));
+      interfaceName = FormatUtility.toTitleCase(
+          uri.replaceAll("{", "")
+              .replaceAll("}", "")
+              .replaceAll("\\", ""));
     }
 
-    return interfaceName + "Api";
+    return interfaceName + SUFFIX_API;
   }
 
   private List<String> getErrorClassNames(Operation operation) {
@@ -89,6 +116,7 @@ public class PlantUMLInterfaceDiagramHelper {
   }
 
   private List<ClassRelation> getInterfaceRelatedInputs(Operation operation) {
+    // TODO refactor to pass source class name
     List<ClassRelation> relatedResponses = new ArrayList<>();
     List<Parameter> parameters = operation.getParameters();
 
@@ -123,6 +151,7 @@ public class PlantUMLInterfaceDiagramHelper {
   }
 
   private List<ClassRelation> getInterfaceRelatedResponses(Operation operation) {
+    // TODO refactor to pass source class name
     List<ClassRelation> relatedResponses = new ArrayList<>();
     Map<String, Response> responses = operation.getResponses();
 

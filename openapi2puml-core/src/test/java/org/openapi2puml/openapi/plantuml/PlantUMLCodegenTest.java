@@ -3,6 +3,7 @@ package org.openapi2puml.openapi.plantuml;
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -16,6 +17,7 @@ public class PlantUMLCodegenTest {
 
   @Test
   @DisplayName("Check basic PlantUML object generation")
+  @Tag("integration-test")
   void test_generatePetStorePlantUml() {
     String specFile = "src/test/resources/petstore/swagger.yaml";
     Swagger swagger = new SwaggerParser().read(new File(specFile).getAbsolutePath());

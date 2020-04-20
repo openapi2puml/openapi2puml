@@ -2,6 +2,7 @@ package org.openapi2puml.openapi.plantuml;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -18,6 +19,7 @@ class PlantUMLGeneratorTest {
 
   @Test
   @DisplayName("Basic Petstore test")
+  @Tag("integration-test")
   void test_generatePetStorePlantUml() {
     String specFile = "src/test/resources/petstore/swagger.yaml";
     String outputPath = "src/test/resources/petstore";
@@ -32,6 +34,7 @@ class PlantUMLGeneratorTest {
 
   @Test
   @DisplayName("Petstore test with inheritance")
+  @Tag("integration-test")
   void test_generatePetStorePlantUml_withInheritance() {
     String specFile = "src/test/resources/petstore_with_inheritance/swagger.yaml";
     String outputPath = "src/test/resources/petstore_with_inheritance";
@@ -46,6 +49,7 @@ class PlantUMLGeneratorTest {
 
   @Test
   @DisplayName("Petstore test with Multiple Response Types")
+  @Tag("integration-test")
   void test_generatePetStorePlantUml_withMultipleResponseTypes() throws Exception{
     String specFile = "src/test/resources/petstore_with_multipleErrorResponseMessages/swagger.yaml";
     String outputPath = "src/test/resources/petstore_with_multipleErrorResponseMessages/";
