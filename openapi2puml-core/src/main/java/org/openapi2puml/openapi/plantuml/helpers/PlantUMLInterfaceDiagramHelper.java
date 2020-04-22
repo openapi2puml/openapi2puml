@@ -11,10 +11,9 @@ import org.openapi2puml.openapi.plantuml.vo.ClassRelation;
 import org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram;
 import org.openapi2puml.openapi.plantuml.vo.MethodDefinitions;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PlantUMLInterfaceDiagramHelper {
   private static final Logger logger = LogManager.getLogger(PlantUMLInterfaceDiagramHelper.class);
@@ -53,12 +52,27 @@ public class PlantUMLInterfaceDiagramHelper {
   private InterfaceDiagram mergeInterfaceDiagrams(InterfaceDiagram existingInterface, InterfaceDiagram newInterface) {
 
     if (existingInterface.getInterfaceName().equalsIgnoreCase(newInterface.getInterfaceName())) {
-      // add the details of new to existing
-      // TODO - decent chance of duplicates here for classes etc
+      // add any missing details of new to existing
+      existingInterface.setErrorClasses(
+          Stream
+              .of(existingInterface.getErrorClasses(), newInterface.getErrorClasses())
+              .flatMap(Collection::stream)
+              .distinct()
+              .collect(Collectors.toList()));
 
-      existingInterface.getErrorClasses().addAll(newInterface.getErrorClasses());
-      existingInterface.getMethods().addAll(newInterface.getMethods());
-      existingInterface.getChildClasses().addAll(newInterface.getChildClasses());
+      existingInterface.setMethods(
+          Stream
+              .of(existingInterface.getMethods(), newInterface.getMethods())
+              .flatMap(Collection::stream)
+              .distinct()
+              .collect(Collectors.toList()));
+
+      existingInterface.setChildClasses(
+          Stream
+              .of(existingInterface.getChildClasses(), newInterface.getChildClasses())
+              .flatMap(Collection::stream)
+              .distinct()
+              .collect(Collectors.toList()));
     }
 
     return existingInterface;

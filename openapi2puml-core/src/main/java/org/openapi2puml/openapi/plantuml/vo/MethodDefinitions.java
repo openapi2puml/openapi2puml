@@ -35,4 +35,12 @@ public class MethodDefinitions {
   public String toString() {
     return "MethodDefinitions [returnType=" + returnType + ", methodDefinition=" + methodDefinition + "]";
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof MethodDefinitions))
+      return false;
+    MethodDefinitions o = (MethodDefinitions)obj;
+    return this.returnType.equals(o.returnType) && this.methodDefinition.equals(o.methodDefinition);
+  }
 }
