@@ -12,7 +12,7 @@ The original developers of Swagger2puml are:
 - Manisha Bardiya https://github.com/manishabardiya
 
 This project is based on Maven.
-Following are modules we currently have 
+Following are modules we currently have
 
 - openapi2puml-core
 
@@ -23,15 +23,14 @@ Following are the tools which this project internally uses:
 - [Graphviz]
 - [Mustache]
 
-# How does it work
+## How does it work
 
-- Input: Openapi2Puml parses the swagger definition from input using [Swagger Parser] 
-- Transform: The swagger definition is built into an object model 
-- Output: The object model is transformed into a [Plant UML] file using a [Mustache] template. Optionally a .svg 
-image can be generated also. 
+- Input: Openapi2Puml parses the swagger definition from input using [Swagger Parser]
+- Transform: The swagger definition is built into an object model
+- Output: The object model is transformed into a [Plant UML] file using a [Mustache] template. Optionally a .svg
+image can be generated also.
 
-
-## openapi2puml-core: 
+### openapi2puml-core:
 
 This utility takes OpenAPI Yaml or JSON as input generates swagger.puml and swagger.svg files as output.
 
@@ -40,7 +39,7 @@ To see the generated PUML file, please click [here](examples/swagger.puml)
 
 ![Swagger-Class-Diagram-Sample](examples/swagger.svg)
 
-### Building:
+## Building:
 
 ```
 mvn package
@@ -48,7 +47,7 @@ mvn package
 
 The jar is built with dependencies and placed in the root of the project.
 
-### Usage:
+## Usage:
 
 ```
 java -jar openapi2puml.jar [options]
@@ -57,8 +56,21 @@ java -jar openapi2puml.jar [options]
 -o {Target location where Puml File and Image should generated}
 -generateDefinitionModelOnly {true/flase Defult False (Optional)}
 -includeCardinality {true/flase Defult true (Optional)}
--generateSvg true/false; Default=true 
+-generateSvg true/false; Default=true
 
+```
+
+## **Experimental** Dockerized version of OpenAPI2Puml
+
+This is an experiment to use a docker container to run the tool.
+Currently it will just generate a plantuml file from the example swagger.yaml file
+
+```bash
+# Build the image from the project
+$ sudo docker build -t openapi2puml-test-image .
+
+# Run a docker container
+$ sudo docker run -v $PWD/examples:/openapi2puml/examples -it openapi2puml-test-image
 ```
 
 License
