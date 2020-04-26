@@ -73,6 +73,8 @@ $ sudo docker build -t openapi2puml-test-image .
 $ sudo docker run -v $PWD/examples:/openapi2puml/examples -it openapi2puml-test-image
 ```
 
+A dockerhub repo exists here: https://hub.docker.com/r/openapi2puml/openapi2puml
+
 License
 ----
 
