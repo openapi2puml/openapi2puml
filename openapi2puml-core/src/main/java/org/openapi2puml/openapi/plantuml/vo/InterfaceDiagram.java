@@ -6,21 +6,22 @@ public class InterfaceDiagram {
 
   private String interfaceName;
   private List<MethodDefinitions> methods;
-  private List<ClassRelation> childClass;
+  private List<ClassRelation> childClasses;
   private List<String> errorClasses;
 
   public InterfaceDiagram() {
     super();
   }
 
-  public InterfaceDiagram(String interfaceName, List<MethodDefinitions> methods,
-                          List<ClassRelation> childClass, List<String> errorClasses) {
-    super();
-    this.interfaceName = interfaceName;
-    this.methods = methods;
-    this.childClass = childClass;
-    this.errorClasses = errorClasses;
-  }
+  // TODO REMOVE
+//  public InterfaceDiagram(String interfaceName, List<MethodDefinitions> methods,
+//                          List<ClassRelation> childClasses, List<String> errorClasses) {
+//    super();
+//    this.interfaceName = interfaceName;
+//    this.methods = methods;
+//    this.childClasses = childClasses;
+//    this.errorClasses = errorClasses;
+//  }
 
   public String getInterfaceName() {
     return interfaceName;
@@ -38,12 +39,12 @@ public class InterfaceDiagram {
     this.methods = methods;
   }
 
-  public List<ClassRelation> getChildClass() {
-    return childClass;
+  public List<ClassRelation> getChildClasses() {
+    return childClasses;
   }
 
-  public void setChildClass(List<ClassRelation> childClass) {
-    this.childClass = childClass;
+  public void setChildClasses(List<ClassRelation> childClasses) {
+    this.childClasses = childClasses;
   }
 
   public List<String> getErrorClasses() {
@@ -56,7 +57,8 @@ public class InterfaceDiagram {
 
   @Override
   public String toString() {
-    return "InterfaceDiagram [interfaceName=" + interfaceName + ", methods=" + methods + ", childClass="
-        + childClass + ", errorClasses=" + errorClasses + "]";
+    return "InterfaceDiagram [interfaceName=" + interfaceName + ", methods=" + methods + ", childClasses="
+        + childClasses + ", errorClasses=" + errorClasses + "]";
   }
+
 }

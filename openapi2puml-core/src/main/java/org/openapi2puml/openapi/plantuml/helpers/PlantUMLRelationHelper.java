@@ -26,7 +26,7 @@ public class PlantUMLRelationHelper {
 
     for (ClassDiagram classDiagram : classDiagrams) {
       logger.debug("Creating Relations for Class: " + classDiagram.getClassName());
-      List<ClassRelation> classRelations = classDiagram.getChildClass();
+      List<ClassRelation> classRelations = classDiagram.getChildClasses();
 
       for (ClassRelation classRelation : classRelations) {
         logger.debug("- Relation to target class: " + classRelation.getTargetClass());
@@ -44,7 +44,7 @@ public class PlantUMLRelationHelper {
 
     for (InterfaceDiagram interfaceDiagram : interfaceDiagrams) {
       logger.debug("Creating Relations for Interface: " + interfaceDiagram.getInterfaceName());
-      List<ClassRelation> classRelations = interfaceDiagram.getChildClass();
+      List<ClassRelation> classRelations = interfaceDiagram.getChildClasses();
 
       for (ClassRelation classRelation : classRelations) {
         logger.debug("- Relation to target class: " + classRelation.getTargetClass());

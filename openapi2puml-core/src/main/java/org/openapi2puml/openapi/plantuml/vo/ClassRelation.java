@@ -1,20 +1,21 @@
 package org.openapi2puml.openapi.plantuml.vo;
 
+import java.util.Objects;
+
 public class ClassRelation {
 
   private String targetClass;
+  // TODO - replace by enum
   private boolean isExtension;
   private boolean isComposition;
   private String cardinality;
   private String sourceClass;
 
   public ClassRelation() {
-    super();
   }
 
   public ClassRelation(String targetClass, boolean isExtension, boolean isComposition, String cardinality,
                        String sourceClass) {
-    super();
     this.targetClass = targetClass;
     this.isExtension = isExtension;
     this.isComposition = isComposition;
@@ -66,5 +67,22 @@ public class ClassRelation {
   public String toString() {
     return "ClassRelation [targetClass=" + targetClass + ", isExtension=" + isExtension + ", isComposition="
         + isComposition + ", cardinality=" + cardinality + ", sourceClass=" + sourceClass + "]";
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof ClassRelation)) return false;
+    ClassRelation that = (ClassRelation) o;
+    return isExtension() == that.isExtension() &&
+        isComposition() == that.isComposition() &&
+        getTargetClass().equals(that.getTargetClass()) &&
+        Objects.equals(getCardinality(), that.getCardinality()) &&
+        Objects.equals(getSourceClass(), that.getSourceClass());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getTargetClass(), isExtension(), isComposition(), getCardinality(), getSourceClass());
   }
 }

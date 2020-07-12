@@ -7,7 +7,7 @@ title __VO's Class Diagram__\n
       namespace plantuml {
         namespace vo {
           class org.openapi2puml.openapi.plantuml.vo.ClassDiagram {
-              - childClass : List<ClassRelation>
+              - childClasses : List<ClassRelation>
               - className : String
               - description : String
               - fields : List<ClassMembers>
@@ -97,7 +97,7 @@ title __VO's Class Diagram__\n
       namespace plantuml {
         namespace vo {
           class org.openapi2puml.openapi.plantuml.vo.InterfaceDiagram {
-              - childClass : List<ClassRelation>
+              - childClasses : List<ClassRelation>
               - errorClasses : List<String>
               - interfaceName : String
               - methods : List<MethodDefinitions>

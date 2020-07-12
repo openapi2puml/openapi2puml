@@ -1,5 +1,6 @@
 package org.openapi2puml.openapi.plantuml.helpers;
 
+import org.junit.jupiter.api.Tag;
 import org.openapi2puml.openapi.plantuml.vo.ClassDiagram;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
@@ -21,10 +22,11 @@ class PlantUMLClassHelperTest {
 
   private PlantUMLClassHelper helper = new PlantUMLClassHelper(true);
 
+  private static final String CLASS_CAT = "Cat";
   @Test
   @DisplayName("Check basic Class Diagram list creation")
+  @Tag("integration-test")
   void processSwaggerModels() {
-    // TODO - replace with a mock to allow specific testing
     String specFile = "src/test/resources/petstore/swagger.yaml";
     Swagger swagger = new SwaggerParser().read(new File(specFile).getAbsolutePath());
 
@@ -37,7 +39,7 @@ class PlantUMLClassHelperTest {
   @DisplayName("Check basic Class Diagram list creation with mocked swagger")
   void processSwaggerModelsWithSwaggerMock() {
     Map<String, Model > modelsMap = new HashMap<>();
-    modelsMap.put("Cat", makeMockModel());
+    modelsMap.put(CLASS_CAT, makeMockModel(CLASS_CAT));
     Swagger swagger = mock(Swagger.class);
     when(swagger.getDefinitions()).thenReturn(modelsMap);
 
@@ -45,12 +47,12 @@ class PlantUMLClassHelperTest {
 
     assertNotNull(classDiagrams, "Model should have at least one class");
     assertTrue(classDiagrams.size() == 1);
-    assertEquals(classDiagrams.get(0).getClassName(), "Cat"); // TODO - hardcodes
+    assertEquals(CLASS_CAT, classDiagrams.get(0).getClassName());
   }
 
-  private ModelImpl makeMockModel() {
+  private ModelImpl makeMockModel(String modelName) {
     ModelImpl model = new ModelImpl();
-    model.setName("Cat");
+    model.setName(modelName);
     return model;
   }
 

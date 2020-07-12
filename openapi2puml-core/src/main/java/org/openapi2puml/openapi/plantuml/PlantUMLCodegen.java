@@ -16,11 +16,11 @@ import java.util.TreeMap;
 
 public class PlantUMLCodegen {
 
-  static final String TITLE = "title";
-  static final String VERSION = "version";
-  static final String CLASS_DIAGRAMS = "classDiagrams";
-  static final String INTERFACE_DIAGRAMS = "interfaceDiagrams";
-  static final String ENTITY_RELATIONS = "entityRelations";
+  public static final String TITLE = "title";
+  public static final String VERSION = "version";
+  public static final String CLASS_DIAGRAMS = "classDiagrams";
+  public static final String INTERFACE_DIAGRAMS = "interfaceDiagrams";
+  public static final String ENTITY_RELATIONS = "entityRelations";
 
   private boolean generateDefinitionModelOnly;
   private boolean includeCardinality;

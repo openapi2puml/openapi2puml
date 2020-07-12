@@ -8,22 +8,18 @@ public class ClassDiagram {
   private boolean isClass;
   private String description;
   private List<ClassMembers> fields;
-  private List<ClassRelation> childClass;
+  private List<ClassRelation> childClasses;
   private String superClass;
 
   public ClassDiagram(String className, String description, List<ClassMembers> fields,
-                      List<ClassRelation> childClass, boolean isClass, String superClass) {
+                      List<ClassRelation> childClasses, boolean isClass, String superClass) {
     super();
     this.className = className;
     this.description = description;
     this.fields = fields;
-    this.childClass = childClass;
+    this.childClasses = childClasses;
     this.isClass = isClass;
     this.superClass = superClass;
-  }
-
-  public ClassDiagram() {
-    super();
   }
 
   public String getClassName() {
@@ -50,12 +46,12 @@ public class ClassDiagram {
     this.fields = fields;
   }
 
-  public List<ClassRelation> getChildClass() {
-    return childClass;
+  public List<ClassRelation> getChildClasses() {
+    return childClasses;
   }
 
-  public void setChildClass(List<ClassRelation> childClass) {
-    this.childClass = childClass;
+  public void setChildClasses(List<ClassRelation> childClasses) {
+    this.childClasses = childClasses;
   }
 
   public boolean isClass() {
@@ -77,6 +73,6 @@ public class ClassDiagram {
   @Override
   public String toString() {
     return "ClassDiagram [className=" + className + ", isClass=" + isClass + ", description=" + description
-        + ", fields=" + fields + ", childClass=" + childClass + ", superClass=" + superClass + "]";
+        + ", fields=" + fields + ", childClasses=" + childClasses + ", superClass=" + superClass + "]";
   }
 }
