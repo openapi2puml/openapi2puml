@@ -13,16 +13,6 @@ public class InterfaceDiagram {
     super();
   }
 
-  // TODO REMOVE
-//  public InterfaceDiagram(String interfaceName, List<MethodDefinitions> methods,
-//                          List<ClassRelation> childClasses, List<String> errorClasses) {
-//    super();
-//    this.interfaceName = interfaceName;
-//    this.methods = methods;
-//    this.childClasses = childClasses;
-//    this.errorClasses = errorClasses;
-//  }
-
   public String getInterfaceName() {
     return interfaceName;
   }
