@@ -50,81 +50,30 @@ class  ApiResponse {
 
 interface PetApi {
 	 + <i>updatePet(Pet body)</i><b>:void</b> 
-}
-
-interface PetApi {
 	 + <i>addPet(Pet body)</i><b>:void</b> 
-}
-
-interface PetApi {
 	 + <i>findPetsByStatus(String[] status)</i><b>:Pet[]</b> 
-}
-
-interface PetApi {
 	 + <i>findPetsByTags(String[] tags)</i><b>:Pet[]</b> 
-}
-
-interface PetApi {
 	 + <i>getPetById(Integer petId)</i><b>:Pet</b> 
-}
-
-interface PetApi {
 	 + <i>updatePetWithForm(Integer petId,String name,String status)</i><b>:void</b> 
-}
-
-interface PetApi {
 	 + <i>deletePet(Integer petId)</i><b>:void</b> 
-}
-
-interface PetApi {
 	 + <i>uploadFile(Integer petId,String additionalMetadata,File file)</i><b>:ApiResponse</b> 
 }
 
 interface StoreApi {
 	 + <i>getInventory()</i><b>:void</b> 
-}
-
-interface StoreApi {
 	 + <i>placeOrder(Order body)</i><b>:Order</b> 
-}
-
-interface StoreApi {
 	 + <i>getOrderById(Integer orderId)</i><b>:Order</b> 
-}
-
-interface StoreApi {
 	 + <i>deleteOrder(Integer orderId)</i><b>:void</b> 
 }
 
 interface UserApi {
 	 + <i>createUser(User body)</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>createUsersWithArrayInput(User[] body)</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>createUsersWithListInput(User[] body)</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>loginUser(String username,String password)</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>logoutUser()</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>getUserByName(String username)</i><b>:User</b> 
-}
-
-interface UserApi {
 	 + <i>updateUser(String username,User body)</i><b>:void</b> 
-}
-
-interface UserApi {
 	 + <i>deleteUser(String username)</i><b>:void</b> 
 }
 

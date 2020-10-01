@@ -19,7 +19,7 @@ public class OpenApi2PlantUML {
       .append(" -generateSvg true/false; Default=true ").toString();
 
   public OpenApi2PlantUML() {
-    super();
+
   }
 
   /**
