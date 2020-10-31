@@ -24,7 +24,8 @@ public class ClassRelation {
   }
 
   public String getTargetClass() {
-    return targetClass;
+    if (targetClass != null && targetClass.contains("-")) return "\"" + targetClass + "\"";
+    else return targetClass;
   }
 
   public void setTargetClass(String targetClass) {
@@ -56,7 +57,8 @@ public class ClassRelation {
   }
 
   public String getSourceClass() {
-    return sourceClass;
+    if (sourceClass != null && sourceClass.contains("-")) return "\"" + sourceClass + "\"";
+    else return sourceClass;
   }
 
   public void setSourceClass(String sourceClass) {

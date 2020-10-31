@@ -17,7 +17,7 @@ public class PlantUMLGenerator {
   }
 
   public void transformOpenApi2Puml(String specFile, String output, boolean generateDefinitionModelOnly,
-                                    boolean includeCardinality, boolean generateSvg) {
+                                    boolean includeCardinality, boolean generateSvg, boolean generatePng) {
     File swaggerSpecFile = new File(specFile);
     File targetLocation = new File(output);
 
@@ -34,7 +34,10 @@ public class PlantUMLGenerator {
         LOGGER.info("Successfully Created Plant UML output file!");
 
         if (generateSvg) {
-          generateUmlDiagramFile(pumlPath, targetLocation);
+          generateUmlDiagramFile(pumlPath, FileFormat.SVG);
+        }
+        if (generatePng) {
+          generateUmlDiagramFile(pumlPath, FileFormat.PNG);
         }
       } catch (Exception e) {
         // TODO - Replace with better error message
@@ -48,9 +51,10 @@ public class PlantUMLGenerator {
     }
   }
 
-  private void generateUmlDiagramFile(String plantUmlFilePath, File targetOutputFile) throws Exception {
-    SourceFileReader sourceFileReader = new SourceFileReader(new File(plantUmlFilePath), targetOutputFile);
-    sourceFileReader.setFileFormatOption(new FileFormatOption(FileFormat.SVG));
+  private void generateUmlDiagramFile(String plantUmlFilePath, FileFormat format) throws Exception {
+    File pumlFile = new File(plantUmlFilePath);
+    SourceFileReader sourceFileReader = new SourceFileReader(pumlFile, pumlFile.getParentFile());
+    sourceFileReader.setFileFormatOption(new FileFormatOption(format));
     sourceFileReader.getGeneratedImages();
   }
 }
