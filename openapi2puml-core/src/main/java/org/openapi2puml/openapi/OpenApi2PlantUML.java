@@ -42,9 +42,9 @@ public class OpenApi2PlantUML {
         cliArgs.getArgumentValue("-generateDefinitionModelOnly", "false"));
     boolean includeCardinality = Boolean.parseBoolean(cliArgs.getArgumentValue("-includeCardinality", "true"));
     boolean generateSvg = Boolean.parseBoolean(cliArgs.getArgumentValue("-generateSvg", "true"));
-
+    boolean generatePng  = Boolean.parseBoolean(cliArgs.getArgumentValue("-generatePng", "true"));
     if (StringUtils.isNotEmpty(specFile) && StringUtils.isNotEmpty(output)) {
-      process(specFile, output, generateDefinitionModelOnly, includeCardinality, generateSvg);
+      process(specFile, output, generateDefinitionModelOnly, includeCardinality, generateSvg, generatePng);
     } else {
       LOGGER.error(USAGE);
     }
@@ -55,8 +55,8 @@ public class OpenApi2PlantUML {
    * @param output
    */
   private void process(String specFile, String output, boolean generateDefinitionModelOnly, boolean includeCardinality,
-                       boolean generateSvg) {
+                       boolean generateSvg, boolean generatePng) {
     PlantUMLGenerator generator = new PlantUMLGenerator();
-    generator.transformOpenApi2Puml(specFile, output, generateDefinitionModelOnly, includeCardinality, generateSvg);
+    generator.transformOpenApi2Puml(specFile, output, generateDefinitionModelOnly, includeCardinality, generateSvg, generatePng);
   }
 }

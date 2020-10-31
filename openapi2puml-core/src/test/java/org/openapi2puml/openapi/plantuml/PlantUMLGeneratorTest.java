@@ -27,7 +27,7 @@ class PlantUMLGeneratorTest {
     boolean includeCardinality = true;
     boolean generateSvg = true;
 
-    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
+    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg, false);
 
     assertTrue(new File(outputPath + "/" + DEFAULT_PLANT_UML_FILENAME).exists(), "Expect PlantUML file to be generated");
   }
@@ -42,7 +42,7 @@ class PlantUMLGeneratorTest {
     boolean includeCardinality = true;
     boolean generateSvg = true;
 
-    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
+    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg, false);
 
     assertTrue(new File(outputPath + "/" + DEFAULT_PLANT_UML_FILENAME).exists(), "Expect PlantUML file to be generated");
   }
@@ -57,7 +57,7 @@ class PlantUMLGeneratorTest {
     boolean includeCardinality = true;
     boolean generateSvg = true;
 
-    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg);
+    generator.transformOpenApi2Puml(specFile, outputPath, generateDefinitionModelOnly, includeCardinality, generateSvg, false);
 
     File plantUmlFile = new File(outputPath + "/" + DEFAULT_PLANT_UML_FILENAME);
     String stringToFind = "CatApi -->    ErrorMessage,WarningMessage";
