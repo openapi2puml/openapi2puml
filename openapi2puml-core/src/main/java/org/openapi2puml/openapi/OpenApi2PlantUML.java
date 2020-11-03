@@ -13,10 +13,12 @@ public class OpenApi2PlantUML {
       .append(" Usage: ")
       .append(OpenApi2PlantUML.class.getName()).append(" <options> \n")
       .append(" -i <spec file> ")
-      .append(" -o <output directory> ")
+      //.append(" -o <output directory> ")
       .append(" -generateDefinitionModelOnly true/false; Default=false ")
       .append(" -includeCardinality true/false; Default=true ")
-      .append(" -generateSvg true/false; Default=true ").toString();
+          .append(" -generateSvg true/false; Default=true ")
+          .append(" -generatePng true/false; Default=true ")
+          .toString();
 
   public OpenApi2PlantUML() {
 

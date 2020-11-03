@@ -3,7 +3,7 @@ hide empty members
 set namespaceSeparator none
 
 {{#classDiagrams}}
-{{#isClass}}class{{/isClass}} {{^isClass}}enum{{/isClass}} {{className}} {{#superClass}} < ? extends {{superClass}}> {{/superClass}}{
+{{#isClass}}class{{/isClass}} {{^isClass}}enum{{/isClass}} "{{className}}" {{#superClass}} < ? extends {{superClass}}> {{/superClass}}{
 	 {{#fields}}
 	 - {{#name}}{{name}}{{/name}} {{#dataType}}<b>:{{dataType}}</b>{{/dataType}}
 	 {{/fields}}
@@ -12,7 +12,7 @@ set namespaceSeparator none
 {{/classDiagrams}}
 
 {{#interfaceDiagrams}}
-interface {{interfaceName}} {
+interface "{{interfaceName}}" {
 	 {{#methods}}
 	 + <i>{{methodDefinition}}</i><b>:{{returnType}}</b> {{#errorClass}} <b><color:red> throws {{errorClass}} </color> </b>{{/errorClass}}
 	 {{/methods}}
@@ -21,7 +21,7 @@ interface {{interfaceName}} {
 {{/interfaceDiagrams}}
 
 {{#entityRelations}}
-{{&sourceClass}} {{#isExtension}}-->{{/isExtension}} {{#isComposition}}*--{{/isComposition}} {{#cardinality}}"{{cardinality}}"{{/cardinality}}  {{&targetClass}}
+"{{&sourceClass}}" {{#isExtension}}-->{{/isExtension}} {{#isComposition}}*--{{/isComposition}} {{#cardinality}}"{{cardinality}}"{{/cardinality}}  "{{&targetClass}}"
 {{/entityRelations}}
 
 note as N1
