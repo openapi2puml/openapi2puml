@@ -3,7 +3,7 @@ hide empty members
 set namespaceSeparator none
 
 {{#classDiagrams}}
-{{#isClass}}class{{/isClass}} {{^isClass}}enum{{/isClass}} "{{className}}" {{#superClass}} < ? extends {{superClass}}> {{/superClass}}{
+{{#isClass}}class{{/isClass}} {{^isClass}}enum{{/isClass}} "{{className}}" {{#superClass}} < ? extends "{{superClass}}"> {{/superClass}}{
 	 {{#fields}}
 	 - {{#name}}{{name}}{{/name}} {{#dataType}}<b>:{{dataType}}</b>{{/dataType}}
 	 {{/fields}}
