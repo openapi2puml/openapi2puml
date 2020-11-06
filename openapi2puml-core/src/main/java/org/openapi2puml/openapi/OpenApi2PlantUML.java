@@ -16,7 +16,9 @@ public class OpenApi2PlantUML {
       .append(" -o <output directory> ")
       .append(" -generateDefinitionModelOnly true/false; Default=false ")
       .append(" -includeCardinality true/false; Default=true ")
-      .append(" -generateSvg true/false; Default=true ").toString();
+          .append(" -generateSvg true/false; Default=true ")
+          .append(" -generatePng true/false; Default=true ")
+          .toString();
 
   public OpenApi2PlantUML() {
 
