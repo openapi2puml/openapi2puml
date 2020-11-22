@@ -69,7 +69,7 @@ and add command line options by using `docker run`, e.g.
 # Run a docker container
 $ sudo docker run --rm -it --name openapi2puml \
     -v $PWD/examples:/specs \
-    openapi2puml/openapi2puml -i specs/swagger.yaml -o specs
+    openapi2puml/openapi2puml -i /specs/swagger.yaml -o /specs
 ```
 
 A dockerhub repo exists here: https://hub.docker.com/r/openapi2puml/openapi2puml
@@ -86,7 +86,7 @@ $ sudo docker build -t openapi2puml .
 # Run a docker container
 $ sudo docker run --rm -it --name openapi2puml \
     -v $PWD/examples:/specs \
-    openapi2puml -i specs/swagger.yaml -o specs
+    openapi2puml -i /specs/swagger.yaml -o /specs
 ```
 
 License
