@@ -1,7 +1,9 @@
+
 # OpenAPI2Puml
 
 [![Build Status](https://api.travis-ci.com/openapi2puml/openapi2puml.svg?branch=master)](https://travis-ci.com/openapi2puml/openapi2puml)
 [![codecov](https://codecov.io/gh/openapi2puml/openapi2puml/branch/master/graph/badge.svg)](https://codecov.io/gh/openapi2puml/openapi2puml)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/openapi2puml/openapi2puml)
 
 OpenApi to Plant UML conversion tool generates UML Class Diagrams from an Open API definition.
 
@@ -74,6 +76,16 @@ $ sudo docker run -v $PWD/examples:/openapi2puml/examples -it openapi2puml-test-
 ```
 
 A dockerhub repo exists here: https://hub.docker.com/r/openapi2puml/openapi2puml
+
+## Running in GitPod
+
+You can directly run this code in GitPod by clicking [this link](https://gitpod.io/#https://github.com/openapi2puml/openapi2puml) and Running
+
+and then using this command line:
+
+```bash
+java -cp /workspace/openapi2puml/openapi2puml-core/target/dependency/*:/workspace/openapi2puml/openapi2puml-core/target/openapi-plantuml-core-0.0.1-SNAPSHOT.jar org.openapi2puml.openapi.OpenApi2PlantUML -i /workspace/openapi2puml/examples/swagger.yaml -o /workspace/openapi2puml/examples
+```
 
 License
 ----
