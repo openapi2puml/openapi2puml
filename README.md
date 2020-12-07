@@ -62,20 +62,34 @@ java -jar openapi2puml.jar [options]
 
 ```
 
-## **Experimental** Dockerized version of OpenAPI2Puml
+## Dockerized version of OpenAPI2Puml
 
-This is an experiment to use a docker container to run the tool.
-Currently it will just generate a plantuml file from the example swagger.yaml file
+It is also to use a docker container to run the tool. Simply mount a directory
+and add command line options by using `docker run`, e.g.
 
 ```bash
-# Build the image from the project
-$ sudo docker build -t openapi2puml-test-image .
-
 # Run a docker container
-$ sudo docker run -v $PWD/examples:/openapi2puml/examples -it openapi2puml-test-image
+$ sudo docker run --rm -it --name openapi2puml \
+    -v $PWD/examples:/specs \
+    openapi2puml/openapi2puml -i /specs/swagger.yaml -o /specs
 ```
 
 A dockerhub repo exists here: https://hub.docker.com/r/openapi2puml/openapi2puml
+
+To build and run a local copy, do the following:
+
+```bash
+# Obtain base image for build
+$ sudo docker pull maven:3-jdk-11  # needed since docker-hub pull restrictions
+
+# Build the image from the project
+$ sudo docker build -t openapi2puml .
+
+# Run a docker container
+$ sudo docker run --rm -it --name openapi2puml \
+    -v $PWD/examples:/specs \
+    openapi2puml -i /specs/swagger.yaml -o /specs
+```
 
 ## Running in GitPod
 
